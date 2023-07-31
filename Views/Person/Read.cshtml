@@ -1,0 +1,54 @@
+﻿@model MvcDirectory.Models.Entities.Person
+@{
+    ViewData["Title"] = "Read";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h1 class="display-4 font-weight-light text-center">Read Record</h1>
+                </div>
+                <div class="card-body">
+                    <form class="form-horizontal" method="post" enctype="multipart/form-data">
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-success">Get the info</button>
+                        </div>
+                    </form>
+
+                    <form class="form-horizontal" method="post" action="/Person/ReadSave">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phoneNumber">Phone Number</label>
+                            @Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-control", pattern = "\\d{10,11}", title = "Enter a valid phone number (10 or 11 digits)" })
+                            <div class="invalid-feedback">
+                                Please enter a valid phone number (10 or 11 digits).
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            @Html.TextBoxFor(x => x.Email, new { @class = "form-control", type = "email" })
+                        </div>
+
+
+                        <div class="form-group text-center">
+                            <a href="@Url.Action("Index")" class="btn btn-outline-secondary">Return</a>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <!-- The form validation script can remain the same as before -->
+}

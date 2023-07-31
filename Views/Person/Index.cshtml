@@ -1,0 +1,123 @@
+﻿@model MvcDirectory.Models.PersonModel.PersonIndexViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .index-title {
+        color: #000;
+        font-size: 3rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        transition: transform 0.2s ease-in-out;
+    }
+
+        .index-title:hover {
+            transform: translateY(-5px);
+        }
+
+    .add-button {
+        background-color: #007BFF;
+        color: #fff;
+        transition: background-color 0.2s ease-in-out;
+        border: 2px solid;
+    }
+
+        .add-button:hover {
+            background-color: #0056b3;
+        }
+
+    /* Update button styles */
+    .update-button {
+        background-color: #868690;
+        color: #fff;
+        transition: background-color 0.2s ease-in-out;
+        border-radius: 5px;
+        border-color: white;
+    }
+
+        .update-button:hover {
+            background-color: #42453d;
+        }
+    .clear-search-btn {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 10px; /* Adjust the margin as needed to create the desired space */
+    }
+    .search-form-container {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 15px;
+    }
+
+    /* Adjust the width of the search input */
+    #searchName {
+        width: 200px; /* Adjust the width as needed */
+        
+        
+    }
+
+    /* Adjust the position of the search button */
+    #search-button {
+        margin-left: 5px; /* Adjust the margin as needed */
+        width: 100px;
+    }
+</style>
+
+<section class="container mt-5">
+    <div class="text-center mb-4">
+        <h1 class="index-title">
+            <img src="~/images/directory.png" style="width: 60px;" />Directory
+        </h1>
+        <a href="@Url.Action("Add", "Person")" class="btn btn-primary btn-lg mt-3 add-button" style="background-color: #0185d0;">Add New User</a>
+        <a href="@Url.Action("Read", "Person")" class="btn btn-primary btn-lg mt-3 add-button" style="background-color: #808080;">Read From Card</a>
+
+    </div>
+
+    <form method="get" asp-controller="Person" asp-action="Search">
+        <div class="input-group mb-3">
+            <input type="text" placeholder="Search Name" aria-label="Search Name" aria-describedby="search-button" id="searchName" name="searchName" />
+            <div class="input-group-append">
+                <button class="btn btn-secondary" type="submit" id="search-button">Search</button>
+            </div>
+        </div>
+    </form>
+    @{
+        var searchName = Context.Request.Query["searchName"].ToString();
+    }
+    @if (!string.IsNullOrEmpty(searchName))
+    {
+        <a href="@Url.Action("Index")" class="btn btn-primary btn-sm alert-secondary" style="margin-bottom: 15px;">Clear Search</a>
+    }
+
+    <div class="text-center">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead class="table-primary" style="background-color: #0185d0; color:white;">
+                    <tr>
+                        <th class="text-left">Name</th>
+                        <th class="text-left">Phone Number</th>
+                        <th>Operations</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var person in Model.People)
+                    {
+                        <tr>
+                            <td class="text-left">@person.Name</td>
+                            <td class="text-left">@person.PhoneNumber</td>
+                            <td>
+                                <a href="@Url.Action("Detail", new { id = person.Id })" class="btn btn-info btn-md detail-button">Detail</a>
+                                <a id="upd" href="@Url.Action("Update", new { id = person.Id })" class="btn btn-primary btn-md update-button">Update</a>
+                                <a href="@Url.Action("Delete", new { id = person.Id })" class="btn btn-danger btn-md delete-button" onclick="return confirm('Are you sure you want to delete the record?');">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+

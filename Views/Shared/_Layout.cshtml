@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MvcDirectory</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom box-shadow">
+            <div class="container">
+                <a class="navbar-brand" href="@Url.Action("Index")" style="font-size: 24px; font-weight: bold; color: #0185d0;">
+                    <img src="~/images/creamobile.png" alt="creamobile_logo" style="width: 40px" />  creamobile
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" style="color: #333;">@*Home*@</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" style="color: #333;">@*Privacy*@</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    <div class="container">
+
+        @if (TempData["BasariliMesaj"] != null)
+        {
+            <div class="alert alert-success" role="alert">
+                @TempData["BasariliMesaj"]
+            </div>
+        }
+        @if (TempData["HataliMesaj"] != null)
+        {
+            <div class="alert alert-danger" role="alert">
+                @TempData["HataliMesaj"]
+            </div>
+        }
+
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top py-4 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 text-center text-lg-left mb-3 mb-lg-0">
+                    <span class="text-muted">&copy; 2023 Creamobile. All rights reserved.</span>
+                </div>
+                <div class="col-lg-6 text-center text-lg-right">
+                    <a class="text-muted mr-3" href="#">Home</a>
+                    <a class="text-muted mr-3" href="#">Products</a>
+                    <a class="text-muted mr-3" href="#">Services</a>
+                    <a class="text-muted mr-3" href="#">About Us</a>
+                    <a class="text-muted" href="#">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

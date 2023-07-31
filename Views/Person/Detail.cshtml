@@ -1,0 +1,42 @@
+﻿@model MvcDirectory.Models.PersonModel.PersonDetailViewModel
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-primary">
+                <div class="card-header bg-primary text-white">
+                    <h1 class="display-4 font-weight-light text-center">Details of @Model.Person.Name</h1>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                            <img src="https://via.placeholder.com/150" alt="Profile Picture" class="img-fluid rounded-circle mb-3">
+                        </div>
+                        <div class="col-md-8">
+                            <dl class="row">
+                                <dt class="col-sm-4">Name:</dt>
+                                <dd class="col-sm-8">@Model.Person.Name</dd>
+
+                                <dt class="col-sm-4">Phone Number:</dt>
+                                <dd class="col-sm-8">@Model.Person.PhoneNumber</dd>
+
+                                <dt class="col-sm-4">Email:</dt>
+                                <dd class="col-sm-8">@Model.Person.Email</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-muted text-center">
+                    <a href="@Url.Action("Index")" class="btn btn-outline-secondary">Return</a>
+                    <a href="#" class="btn btn-outline-primary">Update</a>
+                    <a href="#" class="btn btn-outline-danger" onclick="return confirm('Are you sure you want to delete the record?');">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
