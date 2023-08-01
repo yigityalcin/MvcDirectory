@@ -15,5 +15,7 @@ namespace MvcDirectory.Models.Context
         } 
 
         public DbSet<Person> People { get; set; }
+        
+
     }
 }

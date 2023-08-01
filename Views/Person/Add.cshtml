@@ -15,35 +15,50 @@
                 <div class="card-body">
                     <!-- Add.cshtml -->
 
-                    <form method="post" action="~/Person/Add/" class="needs-validation" novalidate>
+                    <form method="post" enctype="multipart/form-data" asp-action="Add" class="needs-validation" novalidate>
                         <div class="form-group">
                             <label for="name">Name</label>
-                            @Html.TextBoxFor(x => x.Person.Name, new { @class = "form-control", @id = "name", required = "required" })
+                            <input asp-for="Person.Name" class="form-control" id="name" required />
                             <div class="invalid-feedback">
                                 Please enter a valid name.
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="phoneNumber">Phone Number</label>
-                            @Html.TextBoxFor(x => x.Person.PhoneNumber, new { @class = "form-control", @id = "phoneNumber", required = "required", pattern = "\\d{10,11}", title = "Enter a valid phone number (10 or 11 digits)" })
+                            <input asp-for="Person.PhoneNumber" class="form-control" id="phoneNumber" required pattern="\d{10,11}" title="Enter a valid phone number (10 or 11 digits)" />
                             <div class="invalid-feedback">
                                 Please enter a valid phone number (10 or 11 digits).
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="email">Email</label>
-                            @Html.TextBoxFor(x => x.Person.Email, new { @class = "form-control", @id = "email", type = "email", required = "required" })
+                            <input asp-for="Person.Email" class="form-control" id="email" type="email" required />
                             <div class="invalid-feedback">
                                 Please enter a valid email address.
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="profilPhoto">Choose a Photo:</label>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" name="Person.ProfilPhoto" id="profilPhoto" accept="image/*">
+                                <label class="custom-file-label" for="profilPhoto">Select a photo...</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="photoPreview">Photo Preview:</label>
+                            <div class="photo-preview">
+                                <img id="previewImg" src="#" alt="Photo Preview" style="max-width: 200px; max-height: 200px; display: none; border: 2px solid #ddd; border-radius: 5px; padding: 5px;" />
+                                <p id="noImageMsg" style="display: block; text-align: center; font-weight: bold; color: #808080;">No photo selected</p>
+                            </div>
+                        </div>
+
                         <div class="form-group text-center">
                             <a href="@Url.Action("Index")" class="btn btn-outline-secondary">Return</a>
                             <a href="@Url.Action("Read", "Person")" class="btn btn-primary btn-md add-button" style="background-color: #808080;">Read From Card</a>
                             <button type="submit" class="btn btn-primary">Save</button>
                         </div>
                     </form>
-
                 </div>
             </div>
         </div>
@@ -51,5 +66,23 @@
 </section>
 
 @section Scripts {
-    <!-- The form validation script can remain the same as before -->
+    <script>
+        // Custom file input label
+        document.getElementById("profilPhoto").addEventListener("change", function (event) {
+            var input = event.target;
+            var label = input.nextElementSibling;
+            var fileName = input.files[0].name;
+            label.innerText = fileName;
+            label.classList.add("selected");
+        });
+
+        // Photo preview
+        document.getElementById("profilPhoto").addEventListener("change", function (event) {
+            var output = document.getElementById("previewImg");
+            var noImageMsg = document.getElementById("noImageMsg");
+            output.style.display = "block";
+            noImageMsg.style.display = "none";
+            output.src = URL.createObjectURL(event.target.files[0]);
+        });
+    </script>
 }

@@ -6,22 +6,37 @@
 
 <section class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-10">
             <div class="card border-primary">
                 <div class="card-header bg-primary text-white">
                     <h1 class="display-4 font-weight-light text-center">Details of @Model.Person.Name</h1>
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-4 text-center">
-                            <img src="https://via.placeholder.com/150" alt="Profile Picture" class="img-fluid rounded-circle mb-3">
+                        <div class="col-md-4 offset-md-2">
+                            <div class="profile-picture">
+                                <label class="profile-picture-label">
+                                    @if (Model.Person.Photo != null)
+                                    {
+                                        <img class="profile-picture-image" src="data:image;base64,@Convert.ToBase64String(Model.Person.Photo)" alt="Profile Picture" />
+                                    }
+                                    else
+                                    {
+                                        <div class="profile-picture-overlay">
+                                            <i class="fas fa-camera"></i>
+                                            <div class="profile-picture-text">No photo</div>
+                                        </div>
+                                    }
+                                    <input type="file" class="d-none" />
+                                </label>
+                            </div>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-6">
                             <dl class="row">
                                 <dt class="col-sm-4">Name:</dt>
                                 <dd class="col-sm-8">@Model.Person.Name</dd>
 
-                                <dt class="col-sm-4">Phone Number:</dt>
+                                <dt class="col-sm-4">Phone:</dt>
                                 <dd class="col-sm-8">@Model.Person.PhoneNumber</dd>
 
                                 <dt class="col-sm-4">Email:</dt>
@@ -30,13 +45,92 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="card-footer text-muted text-center">
                     <a href="@Url.Action("Index")" class="btn btn-outline-secondary">Return</a>
-                    <a href="#" class="btn btn-outline-primary">Update</a>
-                    <a href="#" class="btn btn-outline-danger" onclick="return confirm('Are you sure you want to delete the record?');">Delete</a>
+                    <a href="@Url.Action("Update", new { id = Model.Person.Id })" class="btn btn-outline-primary">Update</a>
+                    <a href="#" class="btn btn-outline-danger btn-delete" data-id="@Model.Person.Id">Delete</a>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
+
+<style>
+    .profile-picture {
+        position: relative;
+        width: 150px;
+        height: 150px;
+        overflow: hidden;
+        border-radius: 50%;
+    }
+
+    .profile-picture-label {
+        display: block;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+    }
+
+    .profile-picture-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: opacity 0.3s;
+    }
+
+    .profile-picture-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .profile-picture-label:hover .profile-picture-overlay {
+        opacity: 1;
+    }
+
+    .profile-picture-overlay i {
+        font-size: 24px;
+        color: white;
+    }
+
+    .profile-picture-text {
+        color: white;
+        font-weight: bold;
+        margin-top: 5px;
+    }
+</style>
+
+@section Scripts {
+    <script>
+        // Handle delete button click
+        $(".btn-delete").on("click", function () {
+            var id = $(this).data("id");
+            if (confirm("Are you sure you want to delete the record?")) {
+                $.ajax({
+                    url: "@Url.Action("Delete", "Person")",
+                    type: "POST",
+                    data: { id: id },
+                    success: function (result) {
+                        window.location.href = "@Url.Action("Index")";
+                    },
+                    error: function () {
+                        alert("An error occurred while deleting the record.");
+                    }
+                });
+            }
+        });
+    </script>
+
+
+}

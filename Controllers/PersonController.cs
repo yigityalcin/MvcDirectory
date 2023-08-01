@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Tesseract;
 using System.Diagnostics;
+using System.IO;
 
 namespace MvcDirectory.Controllers
 {
@@ -42,17 +43,26 @@ namespace MvcDirectory.Controllers
         {
             try
             {
+                // Eğer fotoğraf yüklendi ise, fotoğrafın byte dizisini alıp Kisi.Foto alanına atayın
+                if (person.ProfilPhoto != null && person.ProfilPhoto.Length > 0)
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        person.ProfilPhoto.CopyTo(memoryStream);
+                        person.Photo = memoryStream.ToArray();
+                    }
+                }
+
                 db.People.Add(person);
                 db.SaveChanges();
-
-                TempData["BasariliMesaj"] = "Ekleme işlemi başarılı.";
+                TempData["BasariliMesaj"] = "Kayıt Başarılı";
+                return RedirectToAction("Index");
             }
             catch (Exception)
             {
-                TempData["HataliMesaj"] = "Hata! Lütfen tekrar deneyiniz.";
+                TempData["BasarisizMesaj"] = "Kayıt işlemi başarısız. Lütfen yeniden deneyin.";
+                return RedirectToAction("Add");
             }
-
-            return RedirectToAction("Index");
         }
 
         [HttpGet]
@@ -165,7 +175,8 @@ namespace MvcDirectory.Controllers
         {
             var result = GetTextFromImage("a4.png");
 
-            
+            result.PhoneNumber = result.PhoneNumber.Replace(" ", "");
+            result.PhoneNumber = result.PhoneNumber.Replace("-", "");
 
             person.Name = result.Name;
             person.PhoneNumber = result.PhoneNumber;
@@ -176,14 +187,14 @@ namespace MvcDirectory.Controllers
 
         private Person GetTextFromImage(string imagePath)
         {
-            using (var engine = new TesseractEngine("./tessdata", "tur+equ", EngineMode.Default))
+            using (var engine = new TesseractEngine("./tessdata", "tur", EngineMode.Default))
             {
                 using (var img = Pix.LoadFromFile(imagePath))
                 {
                     using (var page = engine.Process(img))
                     {
                         var text = page.GetText();
-                        Debug.WriteLine(text);
+                        Console.WriteLine(text);
 
                         string phoneNumber = string.Join(',', Extractor.ExtractPhoneNumber(text));
                         string email = string.Join(',', Extractor.ExtractEmailAddresses(text));
@@ -222,5 +233,6 @@ namespace MvcDirectory.Controllers
                 return RedirectToAction("Read");
             }
         }
+       
     }
 }

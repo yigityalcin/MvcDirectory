@@ -16,8 +16,8 @@ namespace MvcDirectory.Models
             string[] namePatterns = new string[]
             {
                 @"\b\p{Lu}\p{Ll}+\b(?:\s+\p{Lu}\p{Ll}+)+",
-                @"\b[A-Z][a-zA-Z'-]+\b"
-
+                @"\b[A-Z][a-zA-Z'-]+\b",
+                @"(?<=\b[A-Z][a-zA-Z]*\s)[^\s]+"
             };
 
             Match match = Regex.Match(input, namePattern);
@@ -31,10 +31,10 @@ namespace MvcDirectory.Models
 
             string[] phonePatterns = new string[]
             {
-        @"\b\d{3}\s\d{3}\s\d{2}\s\d{2}\b",
-        @"\b\d{3}[-.]\d{3}[-.]\d{4}\b",
-        @"\b\+\d{2}\s\d{3}\s\d{3}\s\d{2}\s\d{2}\b",
-        @"\b\d{4}\s?\d{7}\b"
+         @"\d{3}\s\d{3}\s\d{2}\s\d{2}",
+            @"\d{3}[-.]\d{3}[-.]\d{4}",
+            @"\+\d{2}\s\d{3}\s\d{3}\s\d{2}\s\d{2}",
+            @"\b\d{4}\s?\d{7}\b"
             };
 
             foreach (string pattern in phonePatterns)
@@ -55,44 +55,80 @@ namespace MvcDirectory.Models
             return result;
         }
 
-
-
-
         public static List<string> ExtractEmailAddresses(string input)
         {
             List<string> result = new List<string>();
-        
             string[] emailPatterns = new string[]
-        {
-        @"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b", // Standart e-posta adresi formatı
-        @"\b[A-Za-z0-9._%+-]+@domain1\.com\b", // domain1.com alan adına sahip e-posta adresleri
-        @"\b[A-Za-z0-9._%+-]+@domain2\.net\b", // domain2.net alan adına sahip e-posta adresleri
-        @"\b[A-Za-z0-9._%+-]+@(example|test)\.com\b", // example.com veya test.com alan adına sahip e-posta adresleri
-        @"\b[A-Za-z0-9._%+-]+@company\.com\b", // company.com alan adına sahip e-posta adresleri
-        @"\b[A-Za-z0-9._%+-]+@(gmail|yahoo|outlook)\.com\b", // Gmail, Yahoo veya Outlook alan adına sahip e-posta adresleri
-        @"\b[A-Za-z0-9._%+-]+@edu\.edu\b", // edu.edu alan adına sahip e-posta adresleri (eğitim kurumları için)
-        @"\b[A-Za-z0-9._%+-]+@(hotmail|live|msn)\.com\b",
-        @"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b",
-        @"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b",
-        @"\b[A-Za-z0-9]+@ornek\.com\b",
-        @"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}",
-        @"(?:[a-z0-9!#$%&'+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'+/=?^_`{|}~-]+)|""(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])"")©(?:(?:[a-z0-9](?:[a-z0-9-][a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-][a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])"
-        };
+            {
+                @"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b", // Standard email address format
+                @"\b[A-Za-z0-9._%+-]+@domain1\.com\b", // email addresses with domain1.com domain
+                @"\b[A-Za-z0-9._%+-]+@domain2\.net\b", // email addresses with domain2.net domain
+                @"\b[A-Za-z0-9._%+-]+@(example|test)\.com\b", // email addresses with example.com or test.com domain
+                @"\b[A-Za-z0-9._%+-]+©creamobile\.com\b", // email addresses with company.com domain
+                @"\b[A-Za-z0-9._%+-]+@(gmail|yahoo|outlook)\.com\b", // email addresses with Gmail, Yahoo, or Outlook domain
+                @"\b[A-Za-z0-9._%+-]+@edu\.edu\b", // email addresses with edu.edu domain (for educational institutions)
+                @"\b[A-Za-z0-9._%+-]+@(hotmail|live|msn)\.com\b", // email addresses with Hotmail, Live, or MSN domain
+            }; // Add other custom domain patterns or specific email patterns as needed.
+
             foreach (string pattern in emailPatterns)
             {
+                input = Regex.Replace(input, @"©\s*([^©\s]+)\s*©", "@$1@");
                 MatchCollection matches = Regex.Matches(input, pattern);
                 foreach (Match match in matches)
                 {
-                    result.Add(match.Value);
-                    Console.WriteLine("Matched Email: " + match.Value);
+
+                    string emailAddress = match.Groups[0].Value;
+                    // Check if this email address is already added to the result list, if not, add it.
+                    if (!result.Contains(emailAddress))
+                    {
+                        result.Add(emailAddress);
+                        break; // After finding the first match, break the loop.
+                    }
                 }
             }
+
+            // Replace © with @
+            input = Regex.Replace(input, @"©\s*([^©\s]+)\s*©", "@$1@");
+
+            // Find and add newly replaced email addresses
+
 
             return result;
         }
 
+        public static string ExtractWebsiteURL(string input)
+        {
+            // This regular expression matches most common website URL formats.
+            // It may not cover all possible URL variations.
+            string urlPattern = @"\b(?:https?://|www\.)\S+\b";
+
+            Match match = Regex.Match(input, urlPattern);
+
+            if (match.Success)
+            {
+                return match.Value;
+            }
+            else
+            {
+                return null; // No website URL found in the input string.
+            }
+        }
+        public static string ExtractAddress(string input)
+        {
+            string addressPattern = @"\b[A-Za-züğşıöçİĞŞÜÇ]+\s+Mah\.\s+[A-Za-züğşıöçİĞŞÜÇ]+\s+[A-Za-züğşıöçİĞŞÜÇ]+\s+No:\d+\s+\d+\s+[A-Za-züğşıöçİĞŞÜÇ]+\/[A-Za-züğşıöçİĞŞÜÇ]+\b";
 
 
 
+            Match match = Regex.Match(input, addressPattern, RegexOptions.IgnoreCase);
+
+            if (match.Success)
+            {
+                string address = match.Value.Trim();
+                return address;
+            }
+
+            // Eğer adres bulunamazsa, boş bir string döndürülebilir veya null değeri kullanılabilir.
+            return string.Empty;
+        }
     }
 }

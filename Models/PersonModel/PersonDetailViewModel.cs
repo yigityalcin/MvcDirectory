@@ -10,5 +10,6 @@ namespace MvcDirectory.Models.PersonModel
     {
         public Person Person { get; set; }
         public List<Person> People { get; set; }
+        
     }
 }
