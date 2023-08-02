@@ -11,8 +11,6 @@ namespace MvcDirectory.Models
     {
         public static string ExtractName(string input)
         {
-            // Define a pattern to capture first name and last name
-            string namePattern = @"\b\p{Lu}\p{Ll}+\b(?:\s+\p{Lu}\p{Ll}+)+";
             string[] namePatterns = new string[]
             {
                 @"\b\p{Lu}\p{Ll}+\b(?:\s+\p{Lu}\p{Ll}+)+",
@@ -20,10 +18,18 @@ namespace MvcDirectory.Models
                 @"(?<=\b[A-Z][a-zA-Z]*\s)[^\s]+"
             };
 
-            Match match = Regex.Match(input, namePattern);
+            foreach (string pattern in namePatterns)
+            {
+                Match match = Regex.Match(input, pattern);
+                if (match.Success)
+                {
+                    return match.Value;
+                }
+            }
 
-            return match.Success ? match.Value : null;
+            return null;
         }
+
 
         public static List<string> ExtractPhoneNumber(string input)
         {

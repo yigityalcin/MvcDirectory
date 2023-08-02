@@ -119,6 +119,7 @@ namespace MvcDirectory.Controllers
                 Person = person
             };
             return View(model);
+
         }
 
         [HttpGet]
@@ -233,6 +234,29 @@ namespace MvcDirectory.Controllers
                 return RedirectToAction("Read");
             }
         }
-       
+  
+
+        [HttpPost]
+        public IActionResult AddPersonalNotes(PersonDetailViewModel model)
+        {
+            var person = db.People.Find(model.Person.Id);
+            if (person == null)
+            {
+                TempData["HataliMesaj"] = "Person not found";
+                return RedirectToAction("Index");
+            }
+
+            // Update the personal notes for the person
+            person.PersonalNotes = model.Person.PersonalNotes;
+
+            db.SaveChanges();
+
+            TempData["BasariliMesaj"] = "Personal notes added successfully.";
+
+            // Redirect back to the detail view
+            return RedirectToAction("Detail", new { id = model.Person.Id });
+        }
+
+
     }
 }

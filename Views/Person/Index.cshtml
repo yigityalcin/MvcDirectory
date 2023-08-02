@@ -18,7 +18,7 @@
         }
 
     .add-button {
-        background-color: #007BFF;
+        background-color: #0185d0;
         color: #fff;
         transition: background-color 0.2s ease-in-out;
         border: 2px solid;
@@ -27,10 +27,16 @@
         .add-button:hover {
             background-color: #0056b3;
         }
+    .detail-button {
+        background-color: #0ac494;
+    }
+    .delete-button {
+        background-color:#f25f5c;
+    }
 
     /* Update button styles */
     .update-button {
-        background-color: #868690;
+        background-color: #50514f;
         color: #fff;
         transition: background-color 0.2s ease-in-out;
         border-radius: 5px;
@@ -61,6 +67,7 @@
 
     /* Adjust the position of the search button */
     #search-button {
+        background-color: #50514f;
         margin-left: 5px; /* Adjust the margin as needed */
         width: 100px;
     }
@@ -72,7 +79,7 @@
             <img src="~/images/directory.png" style="width: 60px;" />Directory
         </h1>
         <a href="@Url.Action("Add", "Person")" class="btn btn-primary btn-lg mt-3 add-button" style="background-color: #0185d0;">Add New User</a>
-        <a href="@Url.Action("Read", "Person")" class="btn btn-primary btn-lg mt-3 add-button" style="background-color: #808080;">Read From Card</a>
+        <a href="@Url.Action("Read", "Person")" class="btn btn-primary btn-lg mt-3 add-button" style="background-color: #50514f;">Read From Card</a>
 
     </div>
 

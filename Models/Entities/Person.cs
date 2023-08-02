@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
 
+
 namespace MvcDirectory.Models.Entities
 {
     //[Table("Anything")]  bu kodu kullanıp ctrl . ile data annotations scheme kullanırsak databasedeki 
@@ -21,6 +22,8 @@ namespace MvcDirectory.Models.Entities
         public IFormFile ProfilPhoto { get; set; }
         public byte[] Photo { get; set; }
 
+        [MaxLength(500)] // Set the maximum length for the notes field as per your requirement
+        public string PersonalNotes { get; set; }
 
 
 
