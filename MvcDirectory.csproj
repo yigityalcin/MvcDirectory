@@ -28,4 +28,18 @@
     <Folder Include="wwwroot\lib\jquery\dist\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\images\a1.png" />
+    <None Include="wwwroot\images\a2.png" />
+    <None Include="wwwroot\images\a3.png" />
+    <None Include="wwwroot\images\a4.png" />
+    <None Include="wwwroot\images\a5.png" />
+    <None Include="wwwroot\images\abc.png" />
+    <None Include="wwwroot\images\abc1.jpeg" />
+    <None Include="wwwroot\images\abc2.png" />
+    <None Include="wwwroot\images\abc3.png" />
+    <None Include="wwwroot\images\creamobile.png" />
+    <None Include="wwwroot\images\directory.png" />
+  </ItemGroup>
+
 </Project>

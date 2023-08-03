@@ -174,7 +174,7 @@ namespace MvcDirectory.Controllers
         [HttpPost]
         public IActionResult Read(Person person)
         {
-            var result = GetTextFromImage("a4.png");
+            var result = GetTextFromImage("./wwwroot/images/a4.png");
 
             result.PhoneNumber = result.PhoneNumber.Replace(" ", "");
             result.PhoneNumber = result.PhoneNumber.Replace("-", "");
