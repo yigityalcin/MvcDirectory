@@ -261,20 +261,32 @@ namespace MvcDirectory.Controllers
             var person = db.People.Find(model.Person.Id);
             if (person == null)
             {
-                TempData["HataliMesaj"] = "Person not found";
+                TempData["HataliMesaj"] = "Kişi bulunamadı";
                 return RedirectToAction("Index");
             }
 
-            // Update the personal notes for the person
+            // Kişi için kişisel notları güncelle
             person.PersonalNotes = model.Person.PersonalNotes;
+
+            // Yeni profil fotoğrafı yüklenip yüklenmediğini kontrol edin
+            var file = Request.Form.Files["ProfilePhoto"];
+            if (file != null && file.Length > 0)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    file.CopyTo(memoryStream);
+                    person.Photo = memoryStream.ToArray(); // Yüklenen fotoğrafı veritabanına kaydedin
+                }
+            }
 
             db.SaveChanges();
 
-            TempData["BasariliMesaj"] = "Personal notes added successfully.";
+            TempData["BasariliMesaj"] = "Kişisel notlar ve fotoğraf başarıyla güncellendi.";
 
-            // Redirect back to the detail view
+            // Detay sayfasına geri yönlendir
             return RedirectToAction("Detail", new { id = model.Person.Id });
         }
+
 
 
     }

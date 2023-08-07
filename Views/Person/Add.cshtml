@@ -5,83 +5,146 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<section class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header bg-primary text-white">
-                    <h1 class="display-4 font-weight-light text-center">Add New Person</h1>
-                </div>
+<body>
+    <section class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h1 class="display-4 font-weight-light text-center">Add New Person</h1>
+                    </div>
 
-                <div class="card-body">
-                    <form method="post" enctype="multipart/form-data" asp-action="Add" class="needs-validation" novalidate>
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input asp-for="Person.Name" class="form-control" id="name" required />
-                            <div class="invalid-feedback">
-                                Please enter a valid name.
+                    <div class="card-body">
+                        <form method="post" enctype="multipart/form-data" asp-action="Add" class="needs-validation" novalidate>
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input asp-for="Person.Name" class="form-control" id="name" required />
+                                <div class="invalid-feedback">
+                                    Please enter a valid name.
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="phoneNumber">Phone Number</label>
-                            <input asp-for="Person.PhoneNumber" class="form-control" id="phoneNumber" required pattern="\d{10,11}" title="Enter a valid phone number (10 or 11 digits)" />
-                            <div class="invalid-feedback">
-                                Please enter a valid phone number (10 or 11 digits).
+                            <div class="form-group">
+                                <label for="phoneNumber">Phone Number</label>
+                                <input asp-for="Person.PhoneNumber" class="form-control" id="phoneNumber" required pattern="\d{10,11}" title="Enter a valid phone number (10 or 11 digits)" />
+                                <div class="invalid-feedback">
+                                    Please enter a valid phone number (10 or 11 digits).
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input asp-for="Person.Email" class="form-control" id="email" type="email" required />
-                            <div class="invalid-feedback">
-                                Please enter a valid email address.
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input asp-for="Person.Email" class="form-control" id="email" type="email" required />
+                                <div class="invalid-feedback">
+                                    Please enter a valid email address.
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="profilPhoto">Choose a Photo:</label>
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" name="Person.ProfilPhoto" id="profilPhoto" accept="image/*">
-                                <label class="custom-file-label" for="profilPhoto">Select a photo...</label>
+                            <div class="form-group">
+                                <label for="profilPhoto">Choose a Photo:</label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" name="Person.ProfilPhoto" id="profilPhoto" accept="image/*">
+                                    <label class="custom-file-label" for="profilPhoto">Select a photo...</label>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label for="photoPreview">Photo Preview:</label>
-                            <div class="photo-preview">
-                                <img id="previewImg" src="#" alt="Photo Preview" style="max-width: 200px; max-height: 200px; display: none; border: 2px solid #ddd; border-radius: 5px; padding: 5px;" />
-                                <p id="noImageMsg" style="display: block; text-align: center; font-weight: bold; color: #808080;">No photo selected</p>
+                            <div class="form-group">
+                                <label for="photoPreview">Photo Preview:</label>
+                                <div class="photo-preview">
+                                    <img id="previewImg" src="#" alt="Photo Preview" style="max-width: 200px; max-height: 200px; display: none; border: 2px solid #ddd; border-radius: 5px; padding: 5px;" />
+                                    <p id="noImageMsg" style="display: block; text-align: center; font-weight: bold; color: #808080;">No photo selected</p>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group text-center">
-                            <a href="@Url.Action("Index")" class="btn btn-outline-secondary">Return</a>
-                            <a href="@Url.Action("Read", "Person")" class="btn btn-primary btn-md add-button" style="background-color: #808080;">Read From Card</a>
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </div>
-                    </form>
+                            <!-- Add this container to hold the image for cropping -->
+                            <div id="cropperContainer" style="display: none;">
+                                <img id="cropperImage" src="#" alt="Crop Image" />
+                            </div>
+
+                            <!-- Add buttons for actions: choose image and crop -->
+                            <input type="file" id="fileInput" name="ProfilePhoto" style="display: none;" />
+                            <button type="button" id="chooseImageButton" class="btn btn-primary">Choose Image</button>
+                            <button type="button" id="cropButton" class="btn btn-primary" disabled>Crop Image</button>
+
+                            <!-- Add a hidden input to store the cropped image data to be sent to the server -->
+                            <input type="hidden" id="croppedImage" name="CroppedImage" />
+
+                            <div class="form-group text-center">
+                                <a href="@Url.Action("Index")" class="btn btn-outline-secondary">Return</a>
+                                <a href="@Url.Action("Read", "Person")" class="btn btn-primary btn-md add-button" style="background-color: #808080;">Read From Card</a>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-@section Scripts {
-    <script>
-        // Custom file input label
-        document.getElementById("profilPhoto").addEventListener("change", function (event) {
-            var input = event.target;
-            var label = input.nextElementSibling;
-            var fileName = input.files[0].name;
-            label.innerText = fileName;
-            label.classList.add("selected");
-        });
+    <!-- ... Sayfanın diğer kısımları ... -->
 
-        // Photo preview
-        document.getElementById("profilPhoto").addEventListener("change", function (event) {
-            var output = document.getElementById("previewImg");
-            var noImageMsg = document.getElementById("noImageMsg");
-            output.style.display = "block";
-            noImageMsg.style.display = "none";
-            output.src = URL.createObjectURL(event.target.files[0]);
-        });
-    </script>
-}
+    @section Scripts {
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/cropperjs-main/dist/cropper.min.js"></script>
+
+        <script>
+            document.getElementById("profilPhoto").addEventListener("change", function (event) {
+                var input = event.target;
+                var label = input.nextElementSibling;
+                var fileName = input.files[0].name;
+                label.innerText = fileName;
+                label.classList.add("selected");
+
+                var output = document.getElementById("previewImg");
+                var noImageMsg = document.getElementById("noImageMsg");
+                output.style.display = "block";
+                noImageMsg.style.display = "none";
+                output.src = URL.createObjectURL(event.target.files[0]);
+
+                var file = event.target.files[0];
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    var image = new Image();
+                    image.src = e.target.result;
+
+                    image.onload = function () {
+                        if (window.cropper) {
+                            window.cropper.destroy();
+                        }
+
+                        window.cropper = new Cropper(image, {
+                            aspectRatio: 1,
+                            viewMode: 1,
+                            guides: false,
+                            background: false,
+                            autoCropArea: 1,
+                            responsive: true,
+                            zoomable: false,
+                            movable: false,
+                        });
+
+                        $("#cropperContainer").show();
+                        $("#cropButton").prop("disabled", false);
+
+                        $("#cropButton").on("click", function () {
+                            var croppedData = window.cropper.getCroppedCanvas().toDataURL();
+                            $("#croppedImage").val(croppedData);
+                            $("#cropperContainer").hide();
+                            $("#previewImg").attr("src", croppedData);
+                            $("#profilPhoto").val("");
+                        });
+                    };
+                };
+
+                if (file) {
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            $("#chooseImageButton").on("click", function () {
+                $("#profilPhoto").trigger("click");
+            });
+        </script>
+    }
+</body>
+
+

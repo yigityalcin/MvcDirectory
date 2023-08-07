@@ -70,12 +70,32 @@
         opacity: 0.4; /* Başlangıçta overlay görünmez olacak */
         transition: opacity 0.3s;
     }
+    .profile-picture-overlay1 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        opacity: 0; /* Başlangıçta overlay görünmez olacak */
+        transition: opacity 0.3s;
+    }
 
+    .profile-picture-label:hover .profile-picture-overlay1 {
+        opacity: 1; /* Overlay'e tıklanınca görünür olacak */
+    }
     .profile-picture-label:hover .profile-picture-overlay {
         opacity: 1; /* Overlay'e tıklanınca görünür olacak */
     }
 
-    
+    .profile-picture-overlay1 i {
+        font-size: 24px;
+        color: white;
+    }
 
     .profile-picture-overlay i {
         font-size: 24px;
@@ -109,13 +129,17 @@
                                 <div class="col-md-4 offset-md-2" style="top:80px; right:30px;">
                                     <div class="profile-picture">
                                         <!-- Dosya seçme için gizli input etiketi -->
-                                        <input type="file" id="fileInput" style="display: none;" />
+                                        <input type="file" id="fileInput" name="ProfilePhoto" style="display: none;" />
 
                                         <!-- Dosya seçme butonu için etiket -->
                                         <label class="profile-picture-label" for="fileInput">
                                             @if (Model.Person.Photo != null)
                                             {
                                                 <img class="profile-picture-image" src="data:image;base64,@Convert.ToBase64String(Model.Person.Photo)" alt="Profile Picture" />
+                                                <div class="profile-picture-overlay1">
+                                                    <i class="fas fa-camera"></i>
+                                                    <div class="profile-picture-text">Change photo</div>
+                                                </div>
                                             }
                                             else
                                             {
@@ -126,10 +150,6 @@
                                             }
                                         </label>
                                     </div>
-
-
-
-
                                 </div>
                                 <div class="col-md-6">
                                     <dl class="row">
@@ -144,7 +164,7 @@
                                     </dl>
                                 </div>
                                 <div class="col-md-4" style="right:-500px; top:-50px;">
-                                    <form id="personalNotesForm" method="post" asp-controller="Person" asp-action="AddPersonalNotes">
+                                    <form id="personalNotesForm" method="post" asp-controller="Person" asp-action="AddPersonalNotes" enctype="multipart/form-data">
                                         <div class="form-group">
                                             <label for="personalNotes" class="font-weight-bold">Personal Notes:</label>
                                             <textarea class="form-control" id="personalNotes" name="Person.PersonalNotes" rows="4">@Model.Person.PersonalNotes</textarea>
@@ -181,6 +201,7 @@
             </div>
         </div>
     </div>
+    
 </section>
 
 @section Scripts {
@@ -203,70 +224,48 @@
             }
         });
         $("#fileInput").change(function () {
-            var file = this.files[0];
-            if (file) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    // Seçilen fotoğrafın önizlemesini overlay içine ekliyoruz
-                    $(".profile-picture-image").attr("src", e.target.result);
-                    // Overlay'i görünür yapıyoruz
-                    $(".profile-picture-overlay").css("opacity", 1);
-                }
-                reader.readAsDataURL(file);
-            }
-        });
+    var file = this.files[0];
+    if (file) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            // Seçilen fotoğrafın önizlemesini overlay içine ekliyoruz
+            $(".profile-picture-image").attr("src", e.target.result);
+            // Overlay'i görünür yapıyoruz
+            $(".profile-picture-overlay").css("opacity", 1);
+        }
+        reader.readAsDataURL(file);
+    }
+});
 
-        // script.js
-        // Diğer JavaScript kodlarınız
-        // ...
+// Form gönderildiğinde çalışacak kod
+$("#personalNotesForm").submit(function (e) {
+    e.preventDefault(); // Sayfa yenilenmesini engellemek için formu submit etmeyi durduruyoruz
 
-        // Fotoğraf seçildiğinde çalışacak kod
-        $("#fileInput").change(function () {
-            var file = this.files[0];
-            if (file) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    // Seçilen fotoğrafın önizlemesini overlay içine ekliyoruz
-                    $(".profile-picture-image").attr("src", e.target.result);
-                    // Overlay'i görünür yapıyoruz
-                    $(".profile-picture-overlay").css("opacity", 1);
-                }
-                reader.readAsDataURL(file);
-            }
-        });
+    // Form verilerini alıyoruz
+    var formData = new FormData(this);
 
-        // Form gönderildiğinde çalışacak kod
-        $("#personalNotesForm").submit(function (e) {
-            e.preventDefault(); // Sayfa yenilenmesini engellemek için formu submit etmeyi durduruyoruz
+    // Eğer fotoğraf seçilmişse, formData içine ekliyoruz
+    var file = $("#fileInput")[0].files[0];
+    if (file) {
+        formData.append("ProfilePhoto", file);
+    }
 
-            // Form verilerini alıyoruz
-            var formData = new FormData(this);
-
-            // Eğer fotoğraf seçilmişse, formData içine ekliyoruz
-            var file = $("#fileInput")[0].files[0];
-            if (file) {
-                formData.append("ProfilePhoto", file);
-            }
-
-            // AJAX ile formu sunucuya gönderiyoruz
-            $.ajax({
-                url: $(this).attr("action"),
-                type: "POST",
-                data: formData,
-                processData: false, // Dosyaları işleme sokma
-                contentType: false, // Content tipi ayarlamama
-                success: function (result) {
-                    // Sunucudan dönen cevapta güncellenmiş fotoğrafın verisini alıyoruz
-                    var updatedPhoto = result.person.Photo;
-                    // Güncellenmiş fotoğrafı önizleme olarak gösteriyoruz
-                    $(".profile-picture-image").attr("src", "data:image;base64," + updatedPhoto);
-                },
-                error: function () {
-                    alert("An error occurred while saving the data.");
-                }
-            });
-        });
-
+    // AJAX ile formu sunucuya gönderiyoruz
+    $.ajax({
+        url: $(this).attr("action"),
+        type: "POST",
+        data: formData,
+        processData: false, // Dosyaları işleme sokma
+        contentType: false, // Content tipi ayarlamama
+        success: function (result) {
+            // Başarılı olduğunda sayfayı yenile
+            window.location.reload();
+        },
+        error: function () {
+            alert("An error occurred while saving the data.");
+        }
+    });
+});
 
     </script>
 }
