@@ -67,13 +67,15 @@
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        opacity: 20;
+        opacity: 0.4; /* Başlangıçta overlay görünmez olacak */
         transition: opacity 0.3s;
     }
 
     .profile-picture-label:hover .profile-picture-overlay {
-        opacity: 1;
+        opacity: 1; /* Overlay'e tıklanınca görünür olacak */
     }
+
+    
 
     .profile-picture-overlay i {
         font-size: 24px;
@@ -85,6 +87,7 @@
         font-weight: bold;
         margin-top: 5px;
     }
+
     .save-button {
         font-size: 14px;
         box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
@@ -105,7 +108,11 @@
                             <div class="row">
                                 <div class="col-md-4 offset-md-2" style="top:80px; right:30px;">
                                     <div class="profile-picture">
-                                        <label class="profile-picture-label">
+                                        <!-- Dosya seçme için gizli input etiketi -->
+                                        <input type="file" id="fileInput" style="display: none;" />
+
+                                        <!-- Dosya seçme butonu için etiket -->
+                                        <label class="profile-picture-label" for="fileInput">
                                             @if (Model.Person.Photo != null)
                                             {
                                                 <img class="profile-picture-image" src="data:image;base64,@Convert.ToBase64String(Model.Person.Photo)" alt="Profile Picture" />
@@ -117,9 +124,12 @@
                                                     <div class="profile-picture-text">No photo</div>
                                                 </div>
                                             }
-                                            <input type="file" class="d-none" />
                                         </label>
                                     </div>
+
+
+
+
                                 </div>
                                 <div class="col-md-6">
                                     <dl class="row">
@@ -156,18 +166,19 @@
 
                             </div>
 
-                        <div class="card-footer text-muted text-center">
-                            <a href="@Url.Action("Index")" class="btn btn-outline-secondary">Return</a>
-                            <a href="@Url.Action("Update", new { id = Model.Person.Id })" class="btn btn-outline-primary">Update</a>
-                            <a href="#" class="btn btn-outline-danger btn-delete" data-id="@Model.Person.Id">Delete</a>
+                            <div class="card-footer text-muted text-center">
+                                <a href="@Url.Action("Index")" class="btn btn-outline-secondary">Return</a>
+                                <a href="@Url.Action("Update", new { id = Model.Person.Id })" class="btn btn-outline-primary">Update</a>
+                                <a href="#" class="btn btn-outline-danger btn-delete" data-id="@Model.Person.Id">Delete</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div>
-            <!-- Empty div for pushing the footer to the bottom -->
+            <div>
+                <!-- Empty div for pushing the footer to the bottom -->
+            </div>
         </div>
     </div>
 </section>
@@ -191,5 +202,71 @@
                 });
             }
         });
+        $("#fileInput").change(function () {
+            var file = this.files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    // Seçilen fotoğrafın önizlemesini overlay içine ekliyoruz
+                    $(".profile-picture-image").attr("src", e.target.result);
+                    // Overlay'i görünür yapıyoruz
+                    $(".profile-picture-overlay").css("opacity", 1);
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // script.js
+        // Diğer JavaScript kodlarınız
+        // ...
+
+        // Fotoğraf seçildiğinde çalışacak kod
+        $("#fileInput").change(function () {
+            var file = this.files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    // Seçilen fotoğrafın önizlemesini overlay içine ekliyoruz
+                    $(".profile-picture-image").attr("src", e.target.result);
+                    // Overlay'i görünür yapıyoruz
+                    $(".profile-picture-overlay").css("opacity", 1);
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Form gönderildiğinde çalışacak kod
+        $("#personalNotesForm").submit(function (e) {
+            e.preventDefault(); // Sayfa yenilenmesini engellemek için formu submit etmeyi durduruyoruz
+
+            // Form verilerini alıyoruz
+            var formData = new FormData(this);
+
+            // Eğer fotoğraf seçilmişse, formData içine ekliyoruz
+            var file = $("#fileInput")[0].files[0];
+            if (file) {
+                formData.append("ProfilePhoto", file);
+            }
+
+            // AJAX ile formu sunucuya gönderiyoruz
+            $.ajax({
+                url: $(this).attr("action"),
+                type: "POST",
+                data: formData,
+                processData: false, // Dosyaları işleme sokma
+                contentType: false, // Content tipi ayarlamama
+                success: function (result) {
+                    // Sunucudan dönen cevapta güncellenmiş fotoğrafın verisini alıyoruz
+                    var updatedPhoto = result.person.Photo;
+                    // Güncellenmiş fotoğrafı önizleme olarak gösteriyoruz
+                    $(".profile-picture-image").attr("src", "data:image;base64," + updatedPhoto);
+                },
+                error: function () {
+                    alert("An error occurred while saving the data.");
+                }
+            });
+        });
+
+
     </script>
 }

@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Tesseract;
 using System.Diagnostics;
 using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace MvcDirectory.Controllers
 {
@@ -172,23 +173,41 @@ namespace MvcDirectory.Controllers
         }
 
         [HttpPost]
-        public IActionResult Read(Person person)
+        public IActionResult Read(IFormFile image)
         {
-            var result = GetTextFromImage("./wwwroot/images/a4.png");
+            if (image != null && image.Length > 0)
+            {
+                // Fotoğrafın yüklendiği geçici bir dosya oluşturun
+                var imagePath = Path.GetTempFileName();
 
-            result.PhoneNumber = result.PhoneNumber.Replace(" ", "");
-            result.PhoneNumber = result.PhoneNumber.Replace("-", "");
+                // Yüklenen fotoğrafı geçici dosyaya kaydedin
+                using (var stream = new FileStream(imagePath, FileMode.Create))
+                {
+                    image.CopyTo(stream);
+                }
 
-            person.Name = result.Name;
-            person.PhoneNumber = result.PhoneNumber;
-            person.Email = result.Email;
+                // Fotoğraftan metin çıkarımını gerçekleştirin
+                var result = GetTextFromImage(imagePath);
 
-            return View("Read", person);
+                // Aldığınız Kisi nesnesini doğrudan gelen verilerle güncelleyin
+                var person = new Person
+                {
+                    Name = result.Name,
+                    PhoneNumber = result.PhoneNumber,
+                    Email = result.Email,
+                  
+                };
+
+                return View("Read", person); // Güncellenmiş Kisi modelini View'e gönderin
+            }
+
+            // Eğer fotoğraf yüklenmemişse, "Getir" sayfasını tekrar gösterin
+            return View();
         }
 
         private Person GetTextFromImage(string imagePath)
         {
-            using (var engine = new TesseractEngine("./tessdata", "tur", EngineMode.Default))
+            using (var engine = new TesseractEngine("./tessdata", "tur+equ", EngineMode.Default))
             {
                 using (var img = Pix.LoadFromFile(imagePath))
                 {
@@ -234,7 +253,7 @@ namespace MvcDirectory.Controllers
                 return RedirectToAction("Read");
             }
         }
-  
+
 
         [HttpPost]
         public IActionResult AddPersonalNotes(PersonDetailViewModel model)

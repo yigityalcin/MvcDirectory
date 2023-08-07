@@ -33,6 +33,65 @@
     .form-group {
         margin-bottom: 15px;
     }
+    .card-body {
+        background-color: #f5f7f6;
+    }
+
+    /*read card body*/
+    .form-horizontal {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    .container-sm {
+        margin-bottom: 10px;
+    }
+
+    label {
+        display: block;
+        font-weight: bold;
+    }
+
+    input[type="file"] {
+        padding: 10px;
+        border: 2px solid #007bff;
+        border-radius: 5px;
+        background-color: #f2f2f2;
+        color: #333;
+        font-size: 12px;
+    }
+
+
+    button {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        
+    }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    
+    .file-input-wrapper {
+        display: inline-block;
+        border: 0px solid #007bff;
+        border-radius: 5px;
+        padding: 5px;
+    }
+
+        .file-input-wrapper img {
+            cursor: pointer;
+        }
+
+        .file-input-wrapper input[type="file"] {
+            display: none;
+        }
+
+
 </style>
 
 <section class="container mt-5">
@@ -45,10 +104,17 @@
                             <h1 class="display-4 font-weight-light text-center">Read Record</h1>
                         </div>
                         <div class="card-body">
-                            <form class="form-horizontal" method="post" enctype="multipart/form-data">
-                                <div class="form-group text-center">
-                                    <button type="submit" class="btn btn-success">Get the info</button>
+                            <form class="form-horizontal text-sm-center" method="post" enctype="multipart/form-data">
+                                <div class="file-input-wrapper">
+                                    <label for="image">
+                                        <img src="~/images/file-add-blue.png" alt="Dosya Seç" />
+                                    </label>
+                                    <input type="file" name="image" id="image" accept="image/*" />
                                 </div>
+                                <div class="button-wrapper">
+                                    <button type="submit" class="btn btn-primary">Bilgileri Getir</button>
+                                </div>
+
                             </form>
 
                             <form class="form-horizontal" method="post" action="/Person/ReadSave">

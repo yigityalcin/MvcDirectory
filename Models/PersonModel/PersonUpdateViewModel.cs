@@ -9,5 +9,6 @@ namespace MvcDirectory.Models.PersonModel
     public class PersonUpdateViewModel
     {
         public Person Person { get; set; }
+
     }
 }
