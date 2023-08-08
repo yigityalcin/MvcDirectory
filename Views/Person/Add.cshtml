@@ -48,7 +48,7 @@
                             <div class="form-group">
                                 <label for="profilPhoto">Choose a Photo:</label>
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" name="ProfilePhoto" id="fileInput" accept="image/*">
+                                    <input type="file" class="custom-file-input" name="ProfilePhoto" id="fileInput" accept="image/*" />
                                     <label class="custom-file-label" for="fileInput">Select a photo...</label>
                                 </div>
                             </div>
@@ -67,9 +67,11 @@
                             </div>
 
                             <!-- Add buttons for actions: choose image and crop -->
-                            <input type="file" id="fileInput" name="ProfilePhoto" style="display: none;" />
-                            <button type="button" id="chooseImageButton" class="btn btn-primary">Choose Image</button>
-                            <button type="button" id="cropButton" class="btn btn-primary" disabled>Crop Image</button>
+                            <div class="form-group">
+                                <div class="btn-group">
+                                    <button type="button" id="cropButton" class="btn btn-primary" disabled>Crop Image</button>
+                                </div>
+                            </div>
 
                             <!-- Add a hidden input to store the cropped image data to be sent to the server -->
                             <input type="hidden" id="croppedImage" name="CroppedImage" />
@@ -91,7 +93,6 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script src="~/js/cropper.js"></script>
-
         <script>
             document.addEventListener("DOMContentLoaded", function () {
                 var image = document.getElementById("previewImg");
@@ -100,38 +101,51 @@
                 var cropperImage = document.getElementById("cropperImage");
                 var cropper;
 
+                var currentImage = null;
+
                 document.getElementById("fileInput").addEventListener("change", function (event) {
                     var input = event.target;
                     var file = input.files[0];
                     if (file) {
                         var reader = new FileReader();
                         reader.onload = function () {
+                            if (currentImage) {
+                                currentImage.remove();
+                            }
+
                             image.style.display = "block";
                             noImageMsg.style.display = "none";
                             image.src = URL.createObjectURL(file);
                             cropperContainer.style.display = "block";
                             cropperImage.src = URL.createObjectURL(file);
                             cropper = new Cropper(cropperImage, {
-                                aspectRatio: 1, // You can set the aspect ratio as you need
-                                viewMode: 2,    // Adjust the view mode as needed
-                                // Other Cropper options...
+                                aspectRatio: 1,
+                                viewMode: 2,
                             });
-                            document.getElementById("cropButton").disabled = false;
+                            currentImage = cropperImage;
+                            document.getElementById("cropButton").removeAttribute("disabled");
                         };
                         reader.readAsDataURL(file);
+                    } else {
+                        image.src = "/images/default.jpg";
+                        cropperContainer.style.display = "none";
+                        document.getElementById("cropButton").setAttribute("disabled", "disabled");
                     }
                 });
 
                 document.getElementById("cropButton").addEventListener("click", function () {
+                    cropper.crop();
+
                     var croppedImageData = cropper.getCroppedCanvas().toDataURL();
                     document.getElementById("croppedImage").value = croppedImageData;
-                    cropper.destroy();
-                    cropperContainer.style.display = "none";
-                });
 
-                // Rest of the code remains the same...
+                    // Show the cropped image preview in the `previewImg` element
+                    image.src = croppedImageData;
+                });
             });
         </script>
+        }
+
     }
 </body>
 </html>
