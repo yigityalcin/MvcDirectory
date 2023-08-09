@@ -18,9 +18,8 @@ namespace MvcDirectory.Models.Entities
         public string Name { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
-        [NotMapped]
-        public IFormFile ProfilPhoto { get; set; }
-        public byte[] Photo { get; set; }
+        
+        public string Photo1 { get; set; }
 
         [MaxLength(500)] // Set the maximum length for the notes field as per your requirement
         public string PersonalNotes { get; set; }

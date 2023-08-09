@@ -19,6 +19,12 @@ namespace MvcDirectory.Controllers
     {
         DirectoryMvcContext db = new DirectoryMvcContext();
 
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
+        public PersonController(IWebHostEnvironment webHostEnvironment)
+        {
+            _webHostEnvironment = webHostEnvironment;
+        }
         public IActionResult Index()
         {
             var model = new PersonIndexViewModel
@@ -40,18 +46,28 @@ namespace MvcDirectory.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(Person person)
+        public IActionResult Add(Person person, IFormFile ProfilePhoto)
         {
             try
             {
-                // Eğer fotoğraf yüklendi ise, fotoğrafın byte dizisini alıp Kisi.Foto alanına atayın
-                if (person.ProfilPhoto != null && person.ProfilPhoto.Length > 0)
+                if (ProfilePhoto != null && ProfilePhoto.Length > 0)
                 {
-                    using (var memoryStream = new MemoryStream())
+                    string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
+
+                    if (!Directory.Exists(uploadsFolder))
                     {
-                        person.ProfilPhoto.CopyTo(memoryStream);
-                        person.Photo = memoryStream.ToArray();
+                        Directory.CreateDirectory(uploadsFolder);
                     }
+
+                    string uniqueFileName = Guid.NewGuid().ToString() + "_" + ProfilePhoto.FileName;
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        ProfilePhoto.CopyTo(fileStream);
+                    }
+
+                    person.Photo1 = "/uploads/" + uniqueFileName;
                 }
 
                 db.People.Add(person);
@@ -62,7 +78,7 @@ namespace MvcDirectory.Controllers
             catch (Exception)
             {
                 TempData["BasarisizMesaj"] = "Kayıt işlemi başarısız. Lütfen yeniden deneyin.";
-                return RedirectToAction("Add");
+                return RedirectToAction("KayitEkle");
             }
         }
 
@@ -269,15 +285,15 @@ namespace MvcDirectory.Controllers
             person.PersonalNotes = model.Person.PersonalNotes;
 
             // Yeni profil fotoğrafı yüklenip yüklenmediğini kontrol edin
-            var file = Request.Form.Files["ProfilePhoto"];
-            if (file != null && file.Length > 0)
-            {
-                using (var memoryStream = new MemoryStream())
-                {
-                    file.CopyTo(memoryStream);
-                    person.Photo = memoryStream.ToArray(); // Yüklenen fotoğrafı veritabanına kaydedin
-                }
-            }
+            //var file = Request.Form.Files["ProfilePhoto"];
+            //if (file != null && file.Length > 0)
+            //{
+            //    using (var memoryStream = new MemoryStream())
+            //    {
+            //        file.CopyTo(memoryStream);
+            //        person.Photo1 = memoryStream.ToArray(); // Yüklenen fotoğrafı veritabanına kaydedin
+            //    }
+            //}
 
             db.SaveChanges();
 

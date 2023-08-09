@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <Folder Include="Data\" />
+    <Folder Include="uploads\" />
     <Folder Include="Views\Shared\" />
     <Folder Include="wwwroot\lib\bootstrap\" />
     <Folder Include="wwwroot\lib\bootstrap\dist\js\" />
