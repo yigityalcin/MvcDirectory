@@ -51,7 +51,7 @@
                                     <input type="file" id="fileInput" name="ProfilePhoto" style="display: none;" />
 
                                     <!-- Dosya seçme butonu için etiket -->
-                                    <label class="profile-picture-label" for="fileInput">
+                                    <label class="profile-picture-label" for="fileInput"></label>
                                         @if (Model.Person.Photo1 != null)
                                         {
                                             <img class="profile-picture-image" src="(Model.Person.Photo1)" alt="Profile Picture" />
@@ -67,7 +67,6 @@
                                                 <div class="profile-picture-text">No photo</div>
                                             </div>
                                         }
-                                    </label>
                                 </div>
                             </div>
                             @using (Html.BeginForm("Update", "Person", FormMethod.Post, new { @class = "form-horizontal" }))

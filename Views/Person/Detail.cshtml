@@ -3,6 +3,7 @@
     ViewData["Title"] = "Detail";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@using System.IO
 
 <style>
     /* Add this style to the body element to make the footer sticky */
@@ -70,6 +71,7 @@
         opacity: 0.4; /* Başlangıçta overlay görünmez olacak */
         transition: opacity 0.3s;
     }
+
     .profile-picture-overlay1 {
         position: absolute;
         top: 0;
@@ -88,6 +90,7 @@
     .profile-picture-label:hover .profile-picture-overlay1 {
         opacity: 1; /* Overlay'e tıklanınca görünür olacak */
     }
+
     .profile-picture-label:hover .profile-picture-overlay {
         opacity: 1; /* Overlay'e tıklanınca görünür olacak */
     }
@@ -114,74 +117,89 @@
         width: 100%;
     }
 </style>
-
-<section class="container mt-5">
-    <div class="d-flex flex-column justify-content-between min-vh-100">
-        <div>
-            <div class="row justify-content-center">
-                <div class="col-md-10">
-                    <div class="card border-primary">
-                        <div class="card-header bg-primary text-white">
-                            <h1 class="display-4 font-weight-light text-center">Details of @Model.Person.Name</h1>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                
-                                <div class="col-md-6">
-                                    <dl class="row">
-                                        <dt class="col-sm-4">Name :</dt>
-                                        <dd class="col-sm-8">@Model.Person.Name</dd>
-
-                                        <dt class="col-sm-4">Phone :</dt>
-                                        <dd class="col-sm-8">@Model.Person.PhoneNumber</dd>
-
-                                        <dt class="col-sm-4">Email :</dt>
-                                        <dd class="col-sm-8">@Model.Person.Email</dd>
-                                    </dl>
-                                </div>
-                                <div class="col-md-4" style="right:-500px; top:-50px;">
-                                    <form id="personalNotesForm" method="post" asp-controller="Person" asp-action="AddPersonalNotes" enctype="multipart/form-data">
-                                        <div class="form-group">
-                                            <label for="personalNotes" class="font-weight-bold">Personal Notes:</label>
-                                            <textarea class="form-control" id="personalNotes" name="Person.PersonalNotes" rows="4">@Model.Person.PersonalNotes</textarea>
-                                        </div>
-
-                                        <input type="hidden" asp-for="Person.Id" />
-
-                                        <div class="mt-3">
-                                            <button type="submit" class="btn btn-primary save-button">Save</button>
-                                        </div>
-                                    </form>
-
-                                    <!-- Add success message display -->
-                                    <!--@if (TempData["BasariliMesaj"] != null)
-                                    {
-                                        <div class="alert alert-success mt-3">@TempData["BasariliMesaj"]</div>
-                                    }-->
-                                </div>
-
+<html>
+<body>
+    <section class="container mt-5">
+        <div class="d-flex flex-column justify-content-between min-vh-100">
+            <div>
+                <div class="row justify-content-center">
+                    <div class="col-md-10">
+                        <div class="card border-primary">
+                            <div class="card-header bg-primary text-white">
+                                <h1 class="display-4 font-weight-light text-center">Details of @Model.Person.Name</h1>
                             </div>
+                            <div class="card-body">
+                                <div class="row">
 
-                            <div class="card-footer text-muted text-center">
-                                <a href="@Url.Action("Index")" class="btn btn-outline-secondary">Return</a>
-                                <a href="@Url.Action("Update", new { id = Model.Person.Id })" class="btn btn-outline-primary">Update</a>
-                                <a href="#" class="btn btn-outline-danger btn-delete" data-id="@Model.Person.Id">Delete</a>
+                                    <div class="col-md-6">
+                                        <dl class="row">
+                                            <dt class="col-sm-4">Name :</dt>
+                                            <dd class="col-sm-8">@Model.Person.Name</dd>
+
+                                            <dt class="col-sm-4">Phone :</dt>
+                                            <dd class="col-sm-8">@Model.Person.PhoneNumber</dd>
+
+                                            <dt class="col-sm-4">Email :</dt>
+                                            <dd class="col-sm-8">@Model.Person.Email</dd>
+
+                                            <dt class="col-sm-4">Profile Photo:</dt>
+                                            <dd class="col-sm-8">
+                                                <div class="profile-picture">
+                                                    <label class="profile-picture-label" for="fileInput"></label>
+                                                    <img class="profile-picture-image" src="~/uploads/@TempData["UploadedFileName"]" alt="Profile Photo" />
+                                                    <div class="profile-picture-overlay">
+                                                        <i class="fas fa-camera"></i>
+                                                        <div class="profile-picture-text">Change Photo</div>
+                                                    </div>
+                                                </div>
+                                                <input type="file" id="fileInput" name="CroppedPhoto" accept="image/*" class="d-none" />
+                                            </dd>
+                                        </dl>
+                                        <div class="col-md-4" style="right:-500px; top:-50px;">
+                                            <form id="personalNotesForm" method="post" asp-controller="Person" asp-action="AddPersonalNotes" enctype="multipart/form-data">
+                                                <div class="form-group">
+                                                    <label for="personalNotes" class="font-weight-bold">Personal Notes:</label>
+                                                    <textarea class="form-control" id="personalNotes" name="Person.PersonalNotes" rows="4">@Model.Person.PersonalNotes</textarea>
+                                                </div>
+
+                                                <input type="hidden" asp-for="Person.Id" />
+
+                                                <div class="mt-3">
+                                                    <button type="submit" class="btn btn-primary save-button">Save</button>
+                                                </div>
+                                            </form>
+
+                                            <!-- Add success message display -->
+                                            @if (TempData["BasariliMesaj"] != null)
+                                            {
+                                                <div class="alert alert-success mt-3">@TempData["BasariliMesaj"]</div>
+                                            }
+                                        </div>
+                                    </div>
+                                    
+
+                                </div>
+
+                                <div class="card-footer text-muted text-center">
+                                    <a href="@Url.Action("Index")" class="btn btn-outline-secondary">Return</a>
+                                    <a href="@Url.Action("Update", new { id = Model.Person.Id })" class="btn btn-outline-primary">Update</a>
+                                    <a href="#" class="btn btn-outline-danger btn-delete" data-id="@Model.Person.Id">Delete</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div>
-                <!-- Empty div for pushing the footer to the bottom -->
+                <div>
+                    <!-- Empty div for pushing the footer to the bottom -->
+                </div>
             </div>
         </div>
-    </div>
-    
-</section>
 
-@section Scripts {
-    <script>
+    </section>
+
+    @section Scripts {
+        <script>
         // Handle delete button click
         $(".btn-delete").on("click", function () {
             var id = $(this).data("id");
@@ -199,50 +217,51 @@
                 });
             }
         });
-        
-});
 
-// Form gönderildiğinde çalışacak kod
-$("#personalNotesForm").submit(function (e) {
-    e.preventDefault(); // Sayfa yenilenmesini engellemek için formu submit etmeyi durduruyoruz
+        // Form gönderildiğinde çalışacak kod
+        $("#personalNotesForm").submit(function (e) {
+            e.preventDefault(); // Sayfa yenilenmesini engellemek için formu submit etmeyi durduruyoruz
 
-    // Form verilerini alıyoruz
-    var formData = new FormData(this);
+            // Form verilerini alıyoruz
+            var formData = new FormData(this);
 
-    // Eğer fotoğraf seçilmişse, formData içine ekliyoruz
-    var file = $("#fileInput")[0].files[0];
-    if (file) {
-        formData.append("ProfilePhoto", file);
+            // Eğer fotoğraf seçilmişse, formData içine ekliyoruz
+            var file = $("#fileInput")[0].files[0];
+            if (file) {
+                formData.append("CroppedPhoto", file);
+            }
+
+            // AJAX ile formu sunucuya gönderiyoruz
+            $.ajax({
+                url: $(this).attr("action"),
+                type: "POST",
+                data: formData,
+                processData: false, // Dosyaları işleme sokma
+                contentType: false, // Content tipi ayarlamama
+                success: function (result) {
+                    // Başarılı olduğunda sayfayı yenile
+                    window.location.reload();
+                },
+                error: function () {
+                    alert("An error occurred while saving the data.");
+                }
+            });
+            $("#fileInput").change(function () {
+                var file = this.files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        // Seçilen fotoğrafın önizlemesini overlay içine ekliyoruz
+                        $(".profile-picture-image").attr("src", e.target.result);
+                        // Overlay'i görünür yapıyoruz
+                        $(".profile-picture-overlay").css("opacity", 1);
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+        </script>
     }
 
-    // AJAX ile formu sunucuya gönderiyoruz
-    $.ajax({
-        url: $(this).attr("action"),
-        type: "POST",
-        data: formData,
-        processData: false, // Dosyaları işleme sokma
-        contentType: false, // Content tipi ayarlamama
-        success: function (result) {
-            // Başarılı olduğunda sayfayı yenile
-            window.location.reload();
-        },
-        error: function () {
-            alert("An error occurred while saving the data.");
-        }
-    });
-    $("#fileInput").change(function () {
-        var file = this.files[0];
-        if (file) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                // Seçilen fotoğrafın önizlemesini overlay içine ekliyoruz
-                $(".profile-picture-image").attr("src", e.target.result);
-                // Overlay'i görünür yapıyoruz
-                $(".profile-picture-overlay").css("opacity", 1);
-            }
-            reader.readAsDataURL(file);
-        }
-});
-
-    </script>
-}
+</body>
+</html>

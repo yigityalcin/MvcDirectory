@@ -46,8 +46,8 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="form-label" for="profilePhoto">Fotoğraf Seçin:</label>
-                                <input type="file" id="profilePhoto" name="ProfilePhoto" accept="image/*" class="file-input" />
+                                <label class="form-label" for="profilePhoto">Select Photo:</label>
+                                <input type="file" id="profilePhoto" name="cropcrop" accept="image/*" class="file-input" />
                             </div>
 
                             <div class="form-group">
@@ -58,20 +58,25 @@
                                 </div>
                             </div>
 
-                            <!-- Add this container to hold the image for cropping -->
                             <div id="cropperContainer" style="display: none;">
                                 <img id="cropperImage" src="#" alt="Crop Image" />
                             </div>
 
-                            <!-- Add buttons for actions: choose image and crop -->
                             <div class="form-group">
                                 <div class="btn-group">
                                     <button type="button" id="cropButton" class="btn btn-primary" disabled>Crop Image</button>
                                 </div>
                             </div>
 
-                            <!-- Add a hidden input to store the cropped image data to be sent to the server -->
+                            <div class="form-group">
+                                <label for="croppedImagePreview">Cropped Image Preview:</label>
+                                <div class="cropped-image-preview">
+                                    <img id="previewCroppedImg" src="#" name="cropcrop" alt="Cropped Image Preview" style="max-width: 200px; max-height: 200px; display: none; border: 2px solid #ddd; border-radius: 5px; padding: 5px;" />
+                                </div>
+                            </div>
+
                             <input type="hidden" id="croppedImage" name="CroppedImage" />
+                            <input type="hidden" asp-for="Person.CroppedPhoto" />
 
                             <div class="form-group text-center">
                                 <a href="@Url.Action("Index")" class="btn btn-outline-secondary">Return</a>
@@ -86,7 +91,6 @@
     </section>
 
     @section Scripts {
-
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script src="~/js/cropper.js"></script>
@@ -100,7 +104,7 @@
 
                 var currentImage = null;
 
-                document.getElementById("fileInput").addEventListener("change", function (event) {
+                document.getElementById("profilePhoto").addEventListener("change", function (event) {
                     var input = event.target;
                     var file = input.files[0];
                     if (file) {
@@ -110,9 +114,8 @@
                                 currentImage.remove();
                             }
 
-                            image.style.display = "block";
+                            image.style.display = "none";
                             noImageMsg.style.display = "none";
-                            image.src = URL.createObjectURL(file);
                             cropperContainer.style.display = "block";
                             cropperImage.src = URL.createObjectURL(file);
                             cropper = new Cropper(cropperImage, {
@@ -124,7 +127,8 @@
                         };
                         reader.readAsDataURL(file);
                     } else {
-                        image.src = "/images/default.jpg";
+                        image.style.display = "block";
+                        image.src = "/images/a1.png";
                         cropperContainer.style.display = "none";
                         document.getElementById("cropButton").setAttribute("disabled", "disabled");
                     }
@@ -132,17 +136,19 @@
 
                 document.getElementById("cropButton").addEventListener("click", function () {
                     cropper.crop();
-
                     var croppedImageData = cropper.getCroppedCanvas().toDataURL();
                     document.getElementById("croppedImage").value = croppedImageData;
 
-                    // Show the cropped image preview in the `previewImg` element
-                    image.src = croppedImageData;
+                    // Show the cropped image preview
+                    var previewCroppedImage = document.getElementById("previewCroppedImg");
+                    previewCroppedImage.style.display = "block";
+                    previewCroppedImage.src = croppedImageData;
+
+                    // Updated: Trigger the form submission after cropping and updating preview
+                    document.querySelector("form").submit();
                 });
             });
         </script>
-        }
-
     }
 </body>
 </html>

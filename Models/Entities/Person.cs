@@ -20,15 +20,9 @@ namespace MvcDirectory.Models.Entities
         public string Email { get; set; }
         
         public string Photo1 { get; set; }
+        public string CroppedPhoto { get; set; } // Eklediğiniz özellik
 
         [MaxLength(500)] // Set the maximum length for the notes field as per your requirement
         public string PersonalNotes { get; set; }
-
-
-
-
-
-
-
     }
 }

@@ -25,6 +25,7 @@ namespace MvcDirectory.Controllers
         {
             _webHostEnvironment = webHostEnvironment;
         }
+
         public IActionResult Index()
         {
             var model = new PersonIndexViewModel
@@ -46,11 +47,13 @@ namespace MvcDirectory.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(Person person, IFormFile ProfilePhoto)
+        public IActionResult Add(Person person, IFormFile cropcrop, string CroppedPhoto)
         {
             try
             {
-                if (ProfilePhoto != null && ProfilePhoto.Length > 0)
+                string uploadedFileName = ""; // Unique dosya adını burada tanımlıyoruz
+
+                if (cropcrop != null && cropcrop.Length > 0)
                 {
                     string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
 
@@ -59,28 +62,56 @@ namespace MvcDirectory.Controllers
                         Directory.CreateDirectory(uploadsFolder);
                     }
 
-                    string uniqueFileName = Guid.NewGuid().ToString() + "_" + ProfilePhoto.FileName;
+                    string uniqueFileName = Guid.NewGuid().ToString() + "_" + cropcrop.FileName;
                     string filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
-                        ProfilePhoto.CopyTo(fileStream);
+                        cropcrop.CopyTo(fileStream);
                     }
 
-                    person.Photo1 = "/uploads/" + uniqueFileName;
+                    person.CroppedPhoto = "/uploads/" + uniqueFileName; // Sütun adını düzenleyin
+
+                    uploadedFileName = uniqueFileName; // Dosya adını atıyoruz
+                }
+
+                if (!string.IsNullOrEmpty(CroppedPhoto))
+                {
+                    string base64 = CroppedPhoto.Substring(CroppedPhoto.IndexOf(',') + 1);
+                    byte[] bytes = Convert.FromBase64String(base64);
+
+                    string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
+                    string uniqueFileName = Guid.NewGuid().ToString() + "_cropped.jpg";
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        fileStream.Write(bytes, 0, bytes.Length);
+                    }
+
+                    person.CroppedPhoto = "/uploads/" + uniqueFileName; // Sütun adını düzenleyin
                 }
 
                 db.People.Add(person);
                 db.SaveChanges();
+
                 TempData["BasariliMesaj"] = "Kayıt Başarılı";
-                return RedirectToAction("Index");
+                TempData["UploadedFileName"] = uploadedFileName; // Dosya adını TempData'ya ekliyoruz
+                return RedirectToAction("Detail", new { uploadedFileName });
             }
             catch (Exception)
             {
                 TempData["BasarisizMesaj"] = "Kayıt işlemi başarısız. Lütfen yeniden deneyin.";
-                return RedirectToAction("KayitEkle");
+                return RedirectToAction("Add");
             }
         }
+
+
+
+
+
+
+
 
         [HttpGet]
         public IActionResult Update(int id)
