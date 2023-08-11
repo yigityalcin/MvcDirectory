@@ -16,7 +16,6 @@
         .index-title:hover {
             transform: translateY(-5px);
         }
-
     .add-button {
         background-color: #0185d0;
         color: #fff;
@@ -27,11 +26,13 @@
         .add-button:hover {
             background-color: #0056b3;
         }
+
     .detail-button {
         background-color: #0ac494;
     }
+
     .delete-button {
-        background-color:#f25f5c;
+        background-color: #f25f5c;
     }
 
     /* Update button styles */
@@ -46,12 +47,14 @@
         .update-button:hover {
             background-color: #42453d;
         }
+
     .clear-search-btn {
         position: absolute;
         top: 0;
         right: 0;
         margin: 10px; /* Adjust the margin as needed to create the desired space */
     }
+
     .search-form-container {
         display: flex;
         justify-content: flex-end;
@@ -61,8 +64,6 @@
     /* Adjust the width of the search input */
     #searchName {
         width: 200px; /* Adjust the width as needed */
-        
-        
     }
 
     /* Adjust the position of the search button */
@@ -71,6 +72,36 @@
         margin-left: 5px; /* Adjust the margin as needed */
         width: 100px;
     }
+    .table-container {
+        margin-top: 20px;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .custom-checkbox + label {
+        position: relative;
+        padding-left: 5px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+    }
+    .table tbody td {
+        height: 60px;
+        vertical-align: middle;
+    }
+
+    .rounded-img {
+        width: 60px;
+    }
+
+        .rounded-img img {
+            max-width: 40px;
+            max-height: 40px;
+            border-radius: 50%;
+        }
+
 </style>
 
 <section class="container mt-5">
@@ -100,31 +131,92 @@
     }
 
     <div class="text-center">
-        <div class="table-responsive">
-            <table class="table table-striped table-bordered">
-                <thead class="table-primary" style="background-color: #0185d0; color:white;">
-                    <tr>
-                        <th class="text-left">Name</th>
-                        <th class="text-left">Phone Number</th>
-                        <th>Operations</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var person in Model.People)
-                    {
+        <form method="post" asp-controller="Person" asp-action="DeleteSelected">
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead class="table-primary" style="background-color: #0185d0; color: white;">
                         <tr>
-                            <td class="text-left">@person.Name</td>
-                            <td class="text-left">@person.PhoneNumber</td>
-                            <td>
-                                <a href="@Url.Action("Detail", new { id = person.Id })" class="btn btn-info btn-md detail-button">Detail</a>
-                                <a id="upd" href="@Url.Action("Update", new { id = person.Id })" class="btn btn-primary btn-md update-button">Update</a>
-                                <a href="@Url.Action("Delete", new { id = person.Id })" class="btn btn-danger btn-md delete-button" onclick="return confirm('Are you sure you want to delete the record?');">Delete</a>
-                            </td>
+                            <th class="text-center">
+                                <div class="form-check">
+                                    <input class="form-check-input custom-checkbox" type="checkbox" id="selectAll">
+                                    <label class="form-check-label" for="selectAll">
+                                        <button type="submit" class="btn btn-danger btn-sm delete-button" id="deleteSelectedBtn" style="display: none;">X</button>
+                                    </label>
+                                </div>
+                            </th>
+                            <th class="text-center">Photo</th>
+                            <th class="text-center">Name</th>
+                            <th class="text-center">Phone Number</th>
+                            <th class="text-center">Operations</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody>
+                        @foreach (var person in Model.People)
+                        {
+                            <tr>
+                                <td class="text-center">
+                                    <div class="form-check">
+                                        <input class="form-check-input custom-checkbox" type="checkbox" name="selectedPeople" value="@person.Id">
+                                    </div>
+                                </td>
+                                <td class="text-center rounded-img">
+                                    @if (person.CroppedPhoto != null)
+                                    {
+                                    <a href="@person.CroppedPhoto" data-lightbox="person-photos" data-title="Fotoğraf">
+                                        <img src="@person.CroppedPhoto" alt="Fotoğraf" style="max-width: 50px; max-height: 50px; border-radius: 50%;" />
+                                    </a>
+                                    }
+                                </td>
+                                <td class="text-center">@person.Name</td>
+                                <td class="text-center">@person.PhoneNumber</td>
+                                <td class="text-center">
+                                    <a href="@Url.Action("Detail", new { id = person.Id })" class="btn btn-info btn-sm detail-button">Detail</a>
+                                    <a href="@Url.Action("Update", new { id = person.Id })" class="btn btn-primary btn-sm update-button">Update</a>
+                                    <a href="@Url.Action("Delete", new { id = person.Id })" class="btn btn-danger btn-sm delete-button" onclick="return confirm('Are you sure you want to delete the record?');">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </form>
     </div>
 </section>
+
+<script>
+    var selectAllCheckbox = document.getElementById("selectAll");
+    var deleteSelectedBtn = document.getElementById("deleteSelectedBtn");
+    var checkboxes = document.querySelectorAll('[name="selectedPeople"]');
+
+    // Checkbox veya "Select All" değiştiğinde butonun görünürlüğünü ayarla
+    function updateDeleteButtonVisibility() {
+        var anyCheckboxChecked = false;
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                anyCheckboxChecked = true;
+                break;
+            }
+        }
+        deleteSelectedBtn.style.display = anyCheckboxChecked ? "block" : "none";
+    }
+
+    // Checkbox değişikliklerini takip et
+    for (var i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].addEventListener("change", updateDeleteButtonVisibility);
+    }
+
+    // "Select All" checkbox değişikliklerini takip et
+    selectAllCheckbox.addEventListener("change", function () {
+        for (var i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = this.checked;
+        }
+        updateDeleteButtonVisibility();
+    });
+</script>
+
+
+
+
+
+
 

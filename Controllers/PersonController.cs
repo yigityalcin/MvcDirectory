@@ -47,13 +47,14 @@ namespace MvcDirectory.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(Person person, IFormFile cropcrop, string CroppedPhoto)
+        [HttpPost]
+        public IActionResult Add(Person person, IFormFile cropg, string CroppedImage)
         {
             try
             {
                 string uploadedFileName = ""; // Unique dosya adını burada tanımlıyoruz
 
-                if (cropcrop != null && cropcrop.Length > 0)
+                if (cropg != null && cropg.Length > 0)
                 {
                     string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
 
@@ -62,22 +63,22 @@ namespace MvcDirectory.Controllers
                         Directory.CreateDirectory(uploadsFolder);
                     }
 
-                    string uniqueFileName = Guid.NewGuid().ToString() + "_" + cropcrop.FileName;
+                    string uniqueFileName = Guid.NewGuid().ToString() + "_" + cropg.FileName;
                     string filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
-                        cropcrop.CopyTo(fileStream);
+                        cropg.CopyTo(fileStream);
                     }
 
-                    person.CroppedPhoto = "/uploads/" + uniqueFileName; // Sütun adını düzenleyin
+                    person.Photo1 = "/uploads/" + uniqueFileName; // Orijinal fotoğrafı Photo1'e kaydet
 
                     uploadedFileName = uniqueFileName; // Dosya adını atıyoruz
                 }
 
-                if (!string.IsNullOrEmpty(CroppedPhoto))
+                if (!string.IsNullOrEmpty(CroppedImage))
                 {
-                    string base64 = CroppedPhoto.Substring(CroppedPhoto.IndexOf(',') + 1);
+                    string base64 = CroppedImage.Substring(CroppedImage.IndexOf(',') + 1);
                     byte[] bytes = Convert.FromBase64String(base64);
 
                     string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
@@ -89,7 +90,7 @@ namespace MvcDirectory.Controllers
                         fileStream.Write(bytes, 0, bytes.Length);
                     }
 
-                    person.CroppedPhoto = "/uploads/" + uniqueFileName; // Sütun adını düzenleyin
+                    person.CroppedPhoto = "/uploads/" + uniqueFileName; // Kesilmiş fotoğrafı CroppedPhoto'ya kaydet
                 }
 
                 db.People.Add(person);
@@ -235,6 +236,8 @@ namespace MvcDirectory.Controllers
 
                 // Fotoğraftan metin çıkarımını gerçekleştirin
                 var result = GetTextFromImage(imagePath);
+                result.PhoneNumber = result.PhoneNumber.Replace(" ", "");
+                result.PhoneNumber = result.PhoneNumber.Replace("-", "");
 
                 // Aldığınız Kisi nesnesini doğrudan gelen verilerle güncelleyin
                 var person = new Person
@@ -333,6 +336,30 @@ namespace MvcDirectory.Controllers
             // Detay sayfasına geri yönlendir
             return RedirectToAction("Detail", new { id = model.Person.Id });
         }
+
+        [HttpPost]
+        public IActionResult DeleteSelected(List<int> selectedPeople)
+        {
+            if (selectedPeople != null && selectedPeople.Any())
+            {
+                // Seçilen kişileri silme işlemini gerçekleştirin
+                foreach (var personId in selectedPeople)
+                {
+                    // Kişiyi silme işlemini gerçekleştirin (örneğin, veritabanından)
+                    var personToDelete = db.People.Find(personId);
+                    if (personToDelete != null)
+                    {
+                        db.People.Remove(personToDelete);
+                    }
+                }
+
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
+        }
+
+
 
 
 
