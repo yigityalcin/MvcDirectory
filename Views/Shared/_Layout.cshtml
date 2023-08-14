@@ -12,11 +12,11 @@
 </head>
 
 <body>
-    <header style="height: 80px;">
-        <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom box-shadow">
+    <header style="height: 50px;">
+        <nav class="navbar navbar-expand-lg navbar-light border-bottom box-shadow">
             <div class="container">
                 <a class="navbar-brand" href="@Url.Action("Index")" style="font-size: 24px; font-weight: bold; color: #0185d0;">
-                    <img src="~/images/creamobile.png" alt="creamobile_logo" style="width: 40px" />  creamobile
+                    <img src="~/images/creamobile_logo.png" alt="creamobile_logo" style="width: 200px" />
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,27 +57,45 @@
         </main>
     </div>
 
-    <footer class="border-top py-4 bg-light">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 text-center text-lg-left mb-3 mb-lg-0">
-                    <span class="text-muted">&copy; 2023 Creamobile. All rights reserved.</span>
-                </div>
-                <div class="col-lg-6 text-center text-lg-right">
-                    <a class="text-muted mr-3" href="#">Home</a>
-                    <a class="text-muted mr-3" href="#">Products</a>
-                    <a class="text-muted mr-3" href="#">About Us</a>
-                    <a class="text-muted" href="#">Contact</a>
-                </div>
-            </div>
+
+    <footer class="footer-distributed">
+
+        <div class="footer-right">
+
+            <a href="~/images/zuckerberg.jpg"><i class="fa fa-facebook"></i></a>
+            <a href="#"><i class="fa fa-twitter"></i></a>
+            <a href="#"><i class="fa fa-linkedin"></i></a>
+            <a href="#"><i class="fa fa-github"></i></a>
+
         </div>
+
+        <div class="footer-left">
+
+            <p class="footer-links">
+                <a class="link-1" href="#">Home</a>
+
+                <a href="#">Blog</a>
+
+                <a href="#">About</a>  
+
+                <a href="#">Contact</a>
+            </p>
+
+            <p>Creamobile &copy; 2007</p>
+        </div>
+
     </footer>
 
-      
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+    <script src="https://kit.fontawesome.com/c128483078.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 
 
     @await RenderSectionAsync("Scripts", required: false)

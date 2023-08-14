@@ -33,6 +33,60 @@
     .form-group {
         margin-bottom: 15px;
     }
+
+    .profile-picture {
+        position: relative;
+        width: 100px;
+        height: 100px;
+        overflow: hidden;
+        /*border-radius: 50%;*/
+    }
+
+    .profile-picture-label {
+        display: block;
+        width: 100%;
+        height: 100%;
+        background-color: #ddd;
+        cursor: pointer;
+    }
+
+    .profile-picture-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .profile-picture-overlay,
+    .profile-picture-overlay1 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: #fff;
+        opacity: 0.1;
+        transition: opacity 0.3s ease-in-out;
+    }
+
+        .profile-picture-overlay1 i,
+        .profile-picture-overlay i {
+            font-size: 24px;
+        }
+
+    .profile-picture-text {
+        font-size: 12px;
+        margin-top: 5px;
+    }
+
+    .profile-picture:hover .profile-picture-overlay,
+    .profile-picture:hover .profile-picture-overlay1 {
+        opacity: 1;
+    }
 </style>
 
 <section class="container mt-5">
@@ -45,28 +99,28 @@
                             <h1 class="display-4 font-weight-light text-center">Update Person</h1>
                         </div>
                         <div class="card-body">
-                            <div class="col-md-4 offset-md-2" style="top:80px; right:30px;">
+                            <div class="col-md-4 offset-md-2" style="top:10px; right:10px;">
                                 <div class="profile-picture">
                                     <!-- Dosya seçme için gizli input etiketi -->
                                     <input type="file" id="fileInput" name="ProfilePhoto" style="display: none;" />
 
                                     <!-- Dosya seçme butonu için etiket -->
                                     <label class="profile-picture-label" for="fileInput"></label>
-                                        @if (Model.Person.Photo1 != null)
-                                        {
-                                            <img class="profile-picture-image" src="(Model.Person.Photo1)" alt="Profile Picture" />
-                                            <div class="profile-picture-overlay1">
-                                                <i class="fas fa-camera"></i>
-                                                <div class="profile-picture-text">Change photo</div>
-                                            </div>
-                                        }
-                                        else
-                                        {
-                                            <div class="profile-picture-overlay">
-                                                <i class="fas fa-camera"></i>
-                                                <div class="profile-picture-text">No photo</div>
-                                            </div>
-                                        }
+                                    @if (Model.Person.CroppedPhoto != null)
+                                    {
+                                        <img class="profile-picture-image" src="(Model.Person.CroppedPhoto)" alt="Profile Picture" />
+                                        <div class="profile-picture-overlay1">
+                                            <i class="fas fa-camera"></i>
+                                            <div class="profile-picture-text">Change photo</div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="profile-picture-overlay">
+                                            <i class="fas fa-camera"></i>
+                                            <div class="profile-picture-text">No photo</div>
+                                        </div>
+                                    }
                                 </div>
                             </div>
                             @using (Html.BeginForm("Update", "Person", FormMethod.Post, new { @class = "form-horizontal" }))
@@ -74,15 +128,15 @@
                                 @Html.HiddenFor(x => x.Person.Id);
                                 <div class="form-group">
                                     @Html.LabelFor(x => x.Person.Name)
-                                    @Html.TextBoxFor(x => x.Person.Name, null, new { @class = "form-control" })
+                                    @Html.TextBoxFor(x => x.Person.Name, new { @class = "form-control" })
                                 </div>
                                 <div class="form-group">
                                     @Html.LabelFor(x => x.Person.PhoneNumber)
-                                    @Html.TextBoxFor(x => x.Person.PhoneNumber, null, new { @class = "form-control" })
+                                    @Html.TextBoxFor(x => x.Person.PhoneNumber, new { @class = "form-control" })
                                 </div>
                                 <div class="form-group">
                                     @Html.LabelFor(x => x.Person.Email)
-                                    @Html.TextBoxFor(x => x.Person.Email, null, new { @class = "form-control" })
+                                    @Html.TextBoxFor(x => x.Person.Email, new { @class = "form-control" })
                                 </div>
                                 <div class="form-group text-center">
                                     <a href="@Url.Action("Index")" class="btn btn-outline-secondary">Return</a>

@@ -9,6 +9,8 @@ namespace MvcDirectory.Models.PersonModel
     public class PersonIndexViewModel
     {
         public List<Person> People { get; set; }
-        
+
+        public Person Person { get; set; }
+
     }
 }

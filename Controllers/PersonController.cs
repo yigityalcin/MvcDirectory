@@ -30,7 +30,8 @@ namespace MvcDirectory.Controllers
         {
             var model = new PersonIndexViewModel
             {
-                People = db.People.OrderBy(p => p.Name).ToList()
+                People = db.People.OrderBy(p => p.Name).ToList(),
+                Person = new Person()
             };
             return View(model);
         }
