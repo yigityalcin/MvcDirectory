@@ -12,5 +12,10 @@ namespace MvcDirectory.Models.PersonModel
 
         public Person Person { get; set; }
 
+        public int PageSize { get; set; } // Ekledik
+        public int CurrentPage { get; set; } // Ekledik
+        public int TotalRecords { get; set; } // Ekledik
+        public int TotalPages => (int)Math.Ceiling((double)TotalRecords / PageSize); // Ekledik
+
     }
 }

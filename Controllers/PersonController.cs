@@ -26,13 +26,22 @@ namespace MvcDirectory.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int? page)
         {
+            int pageSize = 10;
+            int pageNumber = page ?? 1;
+
             var model = new PersonIndexViewModel
             {
-                People = db.People.OrderBy(p => p.Name).ToList(),
-                Person = new Person()
+                People = db.People.OrderBy(p => p.Name)
+                                  .Skip((pageNumber - 1) * pageSize)
+                                  .Take(pageSize)
+                                  .ToList(),
+                Person = new Person(),
+                PageSize = pageSize,
+                TotalRecords = db.People.Count()
             };
+
             return View(model);
         }
 
