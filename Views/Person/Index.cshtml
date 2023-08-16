@@ -162,28 +162,42 @@
                 <tbody>
                     @foreach (var person in Model.People)
                     {
-                        <tr>
-                            <td class="text-center">
-                                <div class="form-check">
-                                    <input class="form-check-input custom-checkbox" type="checkbox" name="selectedPeople" value="@person.Id">
-                                </div>
-                            </td>
-                            <td class="text-center rounded-img">
-                                @if (person.CroppedPhoto != null)
-                                {
-                                    <a href="@person.CroppedPhoto" data-lightbox="person-photos" data-title="Fotoğraf">
-                                        <img src="@person.CroppedPhoto" alt="Fotoğraf" style="max-width: 50px; max-height: 50px; border-radius: 50%;" />
-                                    </a>
-                                }
-                            </td>
-                            <td class="text-center">@person.Name</td>
-                            <td class="text-center">@person.PhoneNumber</td>
-                            <td class="text-center">
-                                <a href="#" class="btn btn-info btn-md" onclick="openDetayModal('@person.Id')">Detail</a>
-                                <a href="#" class="btn btn-primary btn-md" onclick="openUpdateModal('@person.Id')">Update</a>
-                                <a href="@Url.Action("Delete", new { id = person.Id })" class="btn btn-danger btn-md delete-button" onclick="return confirm('Are you sure you want to delete the record?');">Delete</a>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td class="text-center">
+                            <div class="form-check">
+                                <input class="form-check-input custom-checkbox" type="checkbox" name="selectedPeople" value="@person.Id">
+                            </div>
+                        </td>
+                        <td class="text-center rounded-img">
+                            @if (person.CroppedPhoto != null)
+                            {
+                                <a href="@person.CroppedPhoto" data-lightbox="person-photos" data-title="Fotoğraf">
+                                    <img src="@person.CroppedPhoto" alt="Fotoğraf" style="max-width: 50px; max-height: 50px; border-radius: 50%;" />
+                                </a>
+                            }
+                            else
+                            {
+                                <img src="varsayilan_profil_resmi.png" alt="Varsayılan Fotoğraf" style="max-width: 50px; max-height: 50px; border-radius: 50%;" />
+                            }
+                        </td>
+
+                        <td class="text-center">@person.Name</td>
+                        <td class="text-center">@person.PhoneNumber</td>
+                        <td class="text-center">
+                            <div class="button-group">
+                                <a href="#" class="btn btn-info btn-sm detail-button" onclick="openDetayModal('@person.Id')">
+                                    <i class="fa fa-info-circle"></i> Detail
+                                </a>
+                                <a href="#" class="btn btn-primary btn-sm update-button" onclick="openUpdateModal('@person.Id')">
+                                    <i class="fa fa-pencil"></i> Update
+                                </a>
+                                <a href="@Url.Action("Delete", new { id = person.Id })" class="btn btn-danger btn-sm delete-button" onclick="return confirm('Are you sure you want to delete the record?');">
+                                    <i class="fa fa-trash"></i> Delete
+                                </a>
+                            </div>
+                        </td>
+
+                    </tr>
                     }
                 </tbody>
             </table>

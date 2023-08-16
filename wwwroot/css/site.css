@@ -379,3 +379,6 @@ footer {
 .pagination {
     margin-top:0px;
 }
+.button-group {
+    display: inline-flex; /* İsteğe bağlı olarak span kullanarak da deneyebilirsiniz. */
+}
