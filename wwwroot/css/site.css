@@ -249,11 +249,7 @@ footer {
     opacity: 0.3;
 }
 
-.table-responsive {
-    overflow-x: auto;
-    background-color: #d0def2;
-    opacity: 0.9;
-}
+
 
 .custom-checkbox + label {
     position: relative;
@@ -279,106 +275,12 @@ footer {
         border-radius: 50%;
     }
 
-/* Custom modal styles */
-.custom-modal {
-    background: rgba(0, 0, 0, 0.5);
-}
-
-.custom-modal-content {
-    background-color: #f5f5f5;
-    border: none;
-    border-radius: 10px;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
-}
-
-.custom-modal-header {
-    border-bottom: none;
-    background-color: transparent;
-}
-
-.custom-modal-body {
-    padding: 20px;
-    text-align: center;
-}
-
-.custom-modal-footer {
-    border-top: none;
-    background-color: transparent;
-}
-
-/* Profile image styles */
-.profile-image {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    border: 3px solid #fff;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-}
-
-.no-photo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    font-size: 50px;
-    background-color: #e0e0e0;
-    color: #bdbdbd;
-}
-
-/* Custom table styles */
-
-
-    .custom-table th {
-        width: 150px;
-    }
 
 /* Font Awesome for icons */
 .no-photo i {
     color: #757575;
 }
 
-
 .custom-table {
-    width: 100%;
-    margin-top: 0px;
-    background-color: #ffffff; /* Beyaz arka plan */
-    border: 1px solid #dcdcdc; /* Hücre çizgileri */
-}
-
-.custom-table th, .custom-table td {
-    padding: 10px;
-    text-align: center;
-}
-
-.custom-table thead {
-    background-color: #f5f5f5; /* Açık gri başlık arka plan */
-    color: #3f3f3f; /* Koyu gri başlık metni */
-    font-weight: bold;
-    border-bottom: 2px solid #dcdcdc; /* Alt çizgi */
-}
-
-.custom-table tbody tr:nth-child(even) {
-    background-color: #fff; /* Aralıklı satır arka planı */
-}
-
-.custom-table tbody td {
-    vertical-align: middle;
-}
-
-.custom-table a.btn {
-    margin-right: 5px;
-    color: #ffffff;
-}
-
-.custom-table a.btn:hover {
-    opacity: 0.8;
-}
-
-.pagination {
-    margin-top:0px;
-}
-.button-group {
-    display: inline-flex; /* İsteğe bağlı olarak span kullanarak da deneyebilirsiniz. */
+    background-color:#ffffff;
 }
