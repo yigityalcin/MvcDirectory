@@ -7,24 +7,54 @@
 
 
 
-<section class="container mt-5">
-    <div class="text-center mb-4">
-        <h1 class="index-title">
-            <img src="~/images/directory.png" style="width: 60px;" />Directory
-        </h1>
-        <a href="@Url.Action("Add", "Person")" class="btn btn-primary btn-lg mt-3 add-button" style="background-color: #0185d0;">Add New User</a>
-        <a href="@Url.Action("Read", "Person")" class="btn btn-primary btn-lg mt-3 add-button" style="background-color: #50514f;">Read From Card</a>
+<section class="container mt-3">
+
+    <div class="text-right mb-0" style="margin-bottom:300px;">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-3">
+                    <div class="text-center mb-4">
+                        <div class="wrapper">
+                            <div class="ring" style="justify-content:center;">
+                                <div class="coccoc-alo-phone coccoc-alo-green coccoc-alo-show">
+                                    <a class="navbar-brand" href="@Url.Action("Index")" style="font-size: 30px; color:white; text-align:center;">
+                                        @*<img src="~/images/directory-logo-white1.png" alt="creamobile_logo" style="width: 200px"  />*@ Directory
+                                    </a>
+                                    <a onclick="document.getElementById('ring.mp3').play();">
+                                        <div class="coccoc-alo-ph-circle"></div>
+                                        <div class="coccoc-alo-ph-circle-fill"></div>
+                                        <div class="coccoc-alo-ph-img-circle"></div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
     </div>
 
+
     <form method="get" asp-controller="Person" asp-action="Search">
-        <div class="input-group mb-3">
+        <div class="input-group mb-4">
             <input type="text" placeholder="Search Name" aria-label="Search Name" aria-describedby="search-button" id="searchName" name="searchName" />
             <div class="input-group-append">
                 <button class="btn btn-secondary" type="submit" id="search-button">Search</button>
             </div>
+            <div class="text-right" style="margin-left:445px;">
+                <a href="@Url.Action("Add", "Person")" class="btn btn-primary btn-lg mt-3 add-button" style="background-color: white; color:black; border-block-color:white">Add New User</a>
+                <a href="@Url.Action("Read", "Person")" class="btn btn-primary btn-lg mt-3 add-button" style="background-color: white; color: black; border-block-color: white">Read From Card</a>
+            </div>
         </div>
     </form>
+
+    <div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+    </div>
 
     <div class="container-fluid p-0">
         <div class="table-responsive-xl">
@@ -71,7 +101,7 @@
                                     </tr>
                                 </table>
                             </div>
-      
+
                             <div class="modal-footer custom-modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
                                 <button type="button" class="btn btn-primary open-update-modal" data-id="@person.Id">Update</button>
@@ -79,7 +109,7 @@
                         </div>
                     </div>
                 </div>
-                
+
             }
         </div>
     </div>
@@ -87,47 +117,47 @@
 
     @* Update pop up *@
 
-<div class="modal fade custom-modal" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content custom-modal-content">
-            <div class="modal-header custom-modal-header">
-                <h5 class="modal-title" id="updateModalLabel">Update Person</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body custom-modal-body">
-                <!-- Güncelleme formu içeriği buraya gelecek -->
-                @using (Html.BeginForm("Update", "Person", FormMethod.Post, new { @class = "form-horizontal" }))
-                {
-                    @if (Model.Person != null)
+    <div class="modal fade custom-modal" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content custom-modal-content">
+                <div class="modal-header custom-modal-header">
+                    <h5 class="modal-title" id="updateModalLabel">Update Person</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body custom-modal-body">
+                    <!-- Güncelleme formu içeriği buraya gelecek -->
+                    @using (Html.BeginForm("Update", "Person", FormMethod.Post, new { @class = "form-horizontal" }))
                     {
-                        @Html.HiddenFor(x => x.Person.Id, new { Value = Model.Person.Id })
+                        @if (Model.Person != null)
+                        {
+                            @Html.HiddenFor(x => x.Person.Id, new { Value = Model.Person.Id })
+                        }
+                        else
+                        {
+                            <p>The person you are looking for does not exist.</p>
+                        }
+                        <div class="form-group">
+                            @Html.LabelFor(x => x.Person.Name)
+                            @Html.TextBoxFor(x => x.Person.Name, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(x => x.Person.PhoneNumber)
+                            @Html.TextBoxFor(x => x.Person.PhoneNumber, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(x => x.Person.Email)
+                            @Html.TextBoxFor(x => x.Person.Email, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group text-center">
+                            <input type="submit" class="btn btn-primary" value="Save" />
+                        </div>
                     }
-                    else
-                    {
-                        <p>The person you are looking for does not exist.</p>
-                    }
-                    <div class="form-group">
-                        @Html.LabelFor(x => x.Person.Name)
-                        @Html.TextBoxFor(x => x.Person.Name, new { @class = "form-control" })
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(x => x.Person.PhoneNumber)
-                        @Html.TextBoxFor(x => x.Person.PhoneNumber, new { @class = "form-control" })
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(x => x.Person.Email)
-                        @Html.TextBoxFor(x => x.Person.Email, new { @class = "form-control" })
-                    </div>
-                    <div class="form-group text-center">
-                        <input type="submit" class="btn btn-primary" value="Save" />
-                    </div>
-                }
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
 
@@ -139,81 +169,83 @@
         <a href="@Url.Action("Index")" class="btn btn-primary btn-sm alert-secondary" style="margin-bottom: 15px;">Clear Search</a>
     }
 
-<div class="text-center">
-    <form method="post" asp-controller="Person" asp-action="DeleteSelected">
-        <div class="table-responsive">
-            <table class="table custom-table">
-                <thead class="table-primary" style="background-color: #0185d0; color: white;">
-                    <tr>
-                        <th class="text-center">
-                            <div class="form-check">
-                                <input class="form-check-input custom-checkbox" type="checkbox" id="selectAll">
-                                <label class="form-check-label" for="selectAll">
-                                    <button type="submit" class="btn btn-danger btn-sm delete-button" id="deleteSelectedBtn" style="display: none;">X</button>
-                                </label>
-                            </div>
-                        </th>
-                        <th class="text-center"></th>
-                        <th class="text-center">Name</th>
-                        <th class="text-center">Phone Number</th>
-                        <th class="text-center">Operations</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var person in Model.People)
+    <div class="text-center">
+        <form method="post" asp-controller="Person" asp-action="DeleteSelected">
+            <div class="table-responsive">
+                <table class="table custom-table">
+                    <thead class="table-primary" style="background-color: white; color: black;">
+                        <tr>
+                            <th class="text-center">
+                                <div class="form-check">
+                                    <input class="form-check-input custom-checkbox" type="checkbox" id="selectAll">
+                                    <label class="form-check-label" for="selectAll">
+                                        <button type="submit" class="btn btn-danger btn-sm delete-checkbox" id="deleteSelectedBtn" style="display:none;">
+                                            <i class="fas fa-trash"></i> Delete Selected
+                                        </button>
+                                    </label>
+                                </div>
+                            </th>
+                            <th class="text-center"></th>
+                            <th class="text-center">Name</th>
+                            <th class="text-center">Phone Number</th>
+                            <th class="text-center">Operations</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var person in Model.People)
+                        {
+                            <tr>
+                                <td class="text-center">
+                                    <div class="form-check">
+                                        <input class="form-check-input custom-checkbox" id="checkbox" type="checkbox" name="selectedPeople" value="@person.Id">
+                                    </div>
+                                </td>
+                                <td class="text-center rounded-img">
+                                    @if (person.CroppedPhoto != null)
+                                    {
+                                        <a href="@person.CroppedPhoto" data-lightbox="person-photos" data-title="Fotoğraf">
+                                            <img src="@person.CroppedPhoto" alt="Fotoğraf" style="max-width: 50px; max-height: 50px; border-radius: 50%;" />
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <img src="~/images/default-user.png" alt="Varsayılan Fotoğraf" style="max-width: 50px; max-height: 50px; border-radius: 50%;" />
+                                    }
+                                </td>
+
+                                <td class="text-center">@person.Name</td>
+                                <td class="text-center">@person.PhoneNumber</td>
+                                <td class="text-center">
+                                    <div class="button-group">
+                                        <a href="#" class="btn detail-button" onclick="openDetayModal('@person.Id')">
+                                            <i class="fa fa-info-circle"></i> Detail
+                                        </a>
+                                        <a href="#" class=" btn update-button" onclick="openUpdateModal('@person.Id')">
+                                            <i class="fa fa-pencil"></i> Update
+                                        </a>
+                                        <a href="@Url.Action("Delete", new { id = person.Id })" class="btn delete-button" onclick="return confirm('Are you sure you want to delete the record?');">
+                                            <i class="fa fa-trash"></i>  Delete
+                                        </a>
+                                    </div>
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="text-center mt-3">
+                <ul class="pagination">
+                    @for (int i = 1; i <= Model.TotalPages; i++)
                     {
-                    <tr>
-                        <td class="text-center">
-                            <div class="form-check">
-                                <input class="form-check-input custom-checkbox" type="checkbox" name="selectedPeople" value="@person.Id">
-                            </div>
-                        </td>
-                        <td class="text-center rounded-img">
-                            @if (person.CroppedPhoto != null)
-                            {
-                                <a href="@person.CroppedPhoto" data-lightbox="person-photos" data-title="Fotoğraf">
-                                    <img src="@person.CroppedPhoto" alt="Fotoğraf" style="max-width: 50px; max-height: 50px; border-radius: 50%;" />
-                                </a>
-                            }
-                            else
-                            {
-                                <img src="~/images/default-user.png" alt="Varsayılan Fotoğraf" style="max-width: 50px; max-height: 50px; border-radius: 50%;" />
-                            }
-                        </td>
-
-                        <td class="text-center">@person.Name</td>
-                        <td class="text-center">@person.PhoneNumber</td>
-                        <td class="text-center">
-                            <div class="button-group">
-                                <a href="#" class="btn btn-info btn-sm detail-button" onclick="openDetayModal('@person.Id')">
-                                    <i class="fa fa-info-circle"></i> Detail
-                                </a>
-                                <a href="#" class="btn btn-primary btn-sm update-button" onclick="openUpdateModal('@person.Id')">
-                                    <i class="fa fa-pencil"></i> Update
-                                </a>
-                                <a href="@Url.Action("Delete", new { id = person.Id })" class="btn btn-danger btn-sm delete-button" onclick="return confirm('Are you sure you want to delete the record?');">
-                                    <i class="fa fa-trash"></i> Delete
-                                </a>
-                            </div>
-                        </td>
-
-                    </tr>
+                        <li class="page-item @(Model.CurrentPage == i ? "active" : "")">
+                            <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+                        </li>
                     }
-                </tbody>
-            </table>
-        </div>
-        <div class="text-center mt-3">
-            <ul class="pagination">
-                @for (int i = 1; i <= Model.TotalPages; i++)
-                {
-                    <li class="page-item @(Model.CurrentPage == i ? "active" : "")">
-                        <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
-                    </li>
-                }
-            </ul>
-        </div>
-    </form>
-</div>
+                </ul>
+            </div>
+        </form>
+    </div>
 
 
 
@@ -261,10 +293,6 @@
             $('#updateModal').modal('show');
         });
     });
-    function openUpdateModal(id) {
-        $('#updateModal').modal('show'); // Update pop-up ID'si burada kullanıldı
-    }
-
 
 </script>
 

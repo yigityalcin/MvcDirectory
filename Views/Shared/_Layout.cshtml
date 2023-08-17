@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=0.9" />
     <title>@ViewData["Title"] - MvcDirectory</title>
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
@@ -19,12 +19,10 @@
 </head>
 
 <body>
+
     <header style="height: 50px;">
-        <nav class="navbar navbar-expand-lg navbar-light box-shadow">
+        <nav class="navbar navbar-expand-lg navbar-light box-shadow" style="background-color: #091E3E; opacity:1;">
             <div class="container">
-                <a class="navbar-brand" href="@Url.Action("Index")" style="font-size: 30px; font-weight: bold; color: #0185d0;">
-                    <img src="~/images/creamobile_logo.png" alt="creamobile_logo" style="width: 200px" />
-                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -37,11 +35,29 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#" style="color: #333;">@*Privacy*@</a>
                         </li>
+                        <!-- Sosyal medya ikonları buraya ekleniyor -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://twitter.com/yigityalciin" style="color: white; opacity: 1;">
+                                <i class="fab fa-twitter"></i> <!-- Twitter ikonu -->
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://github.com/yigityalcin" style="color: white; opacity: 1;">
+                                <i class="fab fa-github"></i> <!-- GitHub ikonu -->
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://linkedin.com/in/yigityalcin" style="color: white; opacity: 1;">
+                                <i class="fab fa-linkedin"></i> <!-- LinkedIn ikonu -->
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
+
+
 
 
     <div class="container">
