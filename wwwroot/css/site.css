@@ -11,9 +11,6 @@ tr:hover{
     vertical-align: central;
 }
 
-.card-body {
-    background-color: #f5f7f6;
-}
 #imageContainer {
     max-width: 100%;
     height: 400px; /* Set the desired height for the cropping area */
@@ -218,7 +215,7 @@ footer {
 }
 
     .update-button:hover {
-        background-color: #42453d;
+        background-color: #ffffff;
     }
 
 .clear-search-btn {
@@ -294,6 +291,35 @@ footer {
     background-color:#ffffff;
 }
 
+
+
+.detail-button {
+    background-color: #b7b7b7;
+    color: #fff;
+    transition: background-color 0.2s ease-in-out;
+    border-radius: 5px;
+    border-color: white;
+}
+
+    .detail-button:hover {
+        background-color: #ffffff;
+    }
+
+.delete-button {
+    background-color: #b7b7b7;
+    color: #fff;
+    transition: background-color 0.2s ease-in-out;
+    border-radius: 5px;
+    border-color: white;
+}
+
+    .delete-button:hover {
+        background-color: #d20a0a;
+    }
+
+
+
+/*background*/
 body {
     margin: auto;
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
@@ -366,36 +392,11 @@ body {
     }
 }
 
-.detail-button {
-    background-color: #b7b7b7;
-    color: #fff;
-    transition: background-color 0.2s ease-in-out;
-    border-radius: 5px;
-    border-color: white;
-}
-
-    .detail-button:hover {
-        background-color: #42453d;
-    }
-
-.delete-button {
-    background-color: #b7b7b7;
-    color: #fff;
-    transition: background-color 0.2s ease-in-out;
-    border-radius: 5px;
-    border-color: white;
-}
-
-    .delete-button:hover {
-        background-color: #42453d;
-    }
 
 
 
 
-
-
-
+/*ring ring*/
 .coccoc-alo-ph-circle {
     width: 160px;
     height: 160px;

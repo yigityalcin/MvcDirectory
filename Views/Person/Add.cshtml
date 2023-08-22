@@ -16,15 +16,15 @@
 
 
 <body>
-    <section class="container mt-5">
+    <section class="container mt-5 mb-5">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header bg-primary text-white">
+                    <div class="card-header bg-primary text-dark bg-white">
                         <h1 class="display-4 font-weight-light text-center">Add New Person</h1>
                     </div>
 
-                    <div class="card-body">
+                    <div class="card-body bg-white">
                         <form method="post" enctype="multipart/form-data" asp-action="Add" class="needs-validation" novalidate>
                             <div class="form-group">
                                 <label for="name">Name</label>
@@ -66,7 +66,7 @@
 
                             <div class="form-group">
                                 <div class="btn-group">
-                                    <button type="button" id="cropButton" class="btn btn-primary" disabled>Crop Image</button>
+                                    <button type="button" id="cropButton" class="btn btn-primary bg-secondary text-white border-0" disabled>Crop Image</button>
                                 </div>
                             </div>
 
@@ -82,8 +82,8 @@
 
                             <div class="form-group text-center">
                                 <a href="@Url.Action("Index")" class="btn btn-outline-secondary">Return</a>
-                                <a href="@Url.Action("Read", "Person")" class="btn btn-primary btn-md add-button" style="background-color: #808080;">Read From Card</a>
-                                <button type="submit" class="btn btn-primary">Save</button>
+                                <a href="@Url.Action("Read", "Person")" class="btn btn-primary btn-md add-button border-0 bg-secondary">Read From Card</a>
+                                <button type="submit" class="btn btn-primary text-dark bg-white border-0">Save</button>
                             </div>
                         </form>
                     </div>
