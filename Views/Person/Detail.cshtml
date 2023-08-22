@@ -6,30 +6,6 @@
 @using System.IO
 
 <style>
-    /* Add this style to the body element to make the footer sticky */
-    body {
-        margin: 0;
-        padding: 0;
-    }
-
-    /* Add a custom class to the container to push the footer to the bottom */
-    .min-vh-100 {
-        min-height: 100vh;
-    }
-
-    /* Add these styles to make the footer sticky at the bottom */
-    .d-flex {
-        display: flex;
-    }
-
-    .flex-column {
-        flex-direction: column;
-    }
-
-    .justify-content-between {
-        justify-content: space-between;
-    }
-
     /* Add any other styles you want to customize here */
     .profile-picture {
         position: relative;
@@ -123,8 +99,8 @@
         <div>
             <div class="row justify-content-center">
                 <div class="col-md-10">
-                    <div class="card border-primary">
-                        <div class="card-header bg-primary text-white">
+                    <div class="card table-borderless">
+                        <div class="card-header bg-primary text-white bg-black">
                             <h1 class="display-4 font-weight-light text-center">Details of @Model.Person.Name</h1>
                         </div>
                         <div class="card-body">
@@ -150,18 +126,18 @@
                                                     @if (!string.IsNullOrEmpty(Model.Person.CroppedPhoto))
                                                     {
                                                         <img src="@Model.Person.CroppedPhoto" alt="Profile Photo" class="profile-picture-image" />
-                                                        <div class="profile-picture-overlay">
+                                                        <span class="profile-picture-overlay">
                                                             <i class="fas fa-camera"></i>
-                                                            <div class="profile-picture-text">Change Photo</div>
-                                                        </div>
+                                                            <span class="profile-picture-text">Change Photo</span>
+                                                        </span>
                                                     }
                                                     else
                                                     {
                                                         <i class="fas fa-camera profile-picture-image"></i>
-                                                        <div class="profile-picture-overlay1">
+                                                        <span class="profile-picture-overlay1">
                                                             <i class="fas fa-camera"></i>
-                                                            <div class="profile-picture-text">Add Photo</div>
-                                                        </div>
+                                                            <span class="profile-picture-text">Add Photo</span>
+                                                        </span>
                                                     }
                                                 </label>
                                             </div>
@@ -179,7 +155,7 @@
                                         <input type="hidden" asp-for="Person.Id" />
 
                                         <div class="mt-3">
-                                            <button type="submit" class="btn btn-primary save-button">Save</button>
+                                            <button type="submit" class="btn bg-black text-white save-button">Save</button>
                                         </div>
                                     </form>
 
@@ -195,9 +171,10 @@
                         </div>
 
                         <div class="card-footer text-muted text-center">
-                            <a href="@Url.Action("Index")" class="btn btn-outline-secondary">Return</a>
-                            <a href="@Url.Action("Update", new { id = Model.Person.Id })" class="btn btn-outline-primary">Update</a>
-                            <a href="#" class="btn btn-outline-danger btn-delete" data-id="@Model.Person.Id">Delete</a>
+                            <a href="@Url.Action("Index")" class="btn return-button"><i class="fa fa-undo"></i> Return</a>
+                            <a href="@Url.Action("Update", new { id = Model.Person.Id })" class="btn update-button"> <i class="fa fa-pencil"></i> Update</a>
+                            <a href="#" class="btn delete-button" data-id="@Model.Person.Id"><i class="fa fa-trash"></i> Delete</a>
+
                         </div>
                     </div>
                 </div>
@@ -213,8 +190,8 @@
 
 
 
-<!--@section Scripts {-->
-<!--@*<script>
+@section Scripts {
+    <script>
 // Handle delete button click
 $(".btn-delete").on("click", function () {
     var id = $(this).data("id");
@@ -233,18 +210,18 @@ $(".btn-delete").on("click", function () {
     }
 });
 
-// Form gönderildiğinde çalışacak kod
-//$("#personalNotesForm").submit(function (e) {
-//    e.preventDefault(); // Sayfa yenilenmesini engellemek için formu submit etmeyi durduruyoruz
+/* Form gönderildiğinde çalışacak kod*/
+$("#personalNotesForm").submit(function (e) {
+    e.preventDefault(); // Sayfa yenilenmesini engellemek için formu submit etmeyi durduruyoruz
 
-//    // Form verilerini alıyoruz
-//    var formData = new FormData(this);
+    // Form verilerini alıyoruz
+    var formData = new FormData(this);
 
-//    // Eğer fotoğraf seçilmişse, formData içine ekliyoruz
-//    var file = $("#fileInput")[0].files[0];
-//    if (file) {
-//        formData.append("CroppedPhoto", file);
-//    }
+    // Eğer fotoğraf seçilmişse, formData içine ekliyoruz
+    var file = $("#fileInput")[0].files[0];
+    if (file) {
+        formData.append("CroppedPhoto", file);
+    }
 
     // AJAX ile formu sunucuya gönderiyoruz
     $.ajax({
@@ -264,5 +241,5 @@ $(".btn-delete").on("click", function () {
 });
 
 
-</script>*@-->
-<!--}-->
+    </script>
+}

@@ -4,19 +4,20 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=0.9" />
     <title>@ViewData["Title"] - MvcDirectory</title>
-    <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link href="~/css/cropper.css" rel="stylesheet"> <!-- Buradaki yol, projenize göre değişebilir -->
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
+    <!-- Lightbox CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css">
 
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
-    <script src="https://kit.fontawesome.com/c128483078.js" crossorigin="anonymous"></script>
+    <!-- Custom CSS Files -->
+    <link rel="stylesheet" href="~/css/site.css">
+    <link rel="stylesheet" href="~/css/cropper.css"> <!-- Buradaki yol, projenize göre değişebilir -->
+    <link rel="stylesheet" href="~/fonts/Anton-Regular.ttf">
 
 </head>
+
 
 <body>
 
@@ -28,7 +29,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ml-auto">
+                    <ul class="navbar-nav ms-md-auto">
                         <li class="nav-item">
                             <a class="nav-link" href="#" style="color: #333;">@*Home*@</a>
                         </li>
@@ -38,7 +39,7 @@
                         <!-- Sosyal medya ikonları buraya ekleniyor -->
                         <li class="nav-item">
                             <a class="nav-link" href="https://twitter.com/yigityalciin" target="_blank" style="color: #ffffff; opacity: 1;">
-                                <i class="fab fa-twitter"></i> <!-- Twitter ikonu -->
+                                <i class="fab fa-x-twitter"></i> <!-- Twitter ikonu -->
                             </a>
                         </li>
                         <li class="nav-item">
@@ -81,7 +82,6 @@
         </main>
     </div>
 
-
     <footer class="footer-distributed">
 
         <div class="footer-right">
@@ -109,7 +109,13 @@
         </div>
 
     </footer>
+    
 
     @await RenderSectionAsync("Scripts", required: false)
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+    <script src="https://kit.fontawesome.com/c128483078.js" crossorigin="anonymous"></script>
 </body>
 </html>
