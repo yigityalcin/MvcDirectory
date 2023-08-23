@@ -44,6 +44,32 @@ namespace MvcDirectory.Controllers
 
             return View(model);
         }
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Login(Kayit p)
+        {
+            if (ModelState.IsValid)
+            {
+                Kayit kullanici = db.Kayıt.FirstOrDefault(k => k.username == @p.username && k.password == @p.password);
+
+                if (kullanici != null)
+                {
+
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["BasarisizMesaj"] = "Geçersiz giriş bilgileri.";
+                    return RedirectToAction("Login");
+
+                }
+            }
+            return View(p);
+        }
 
         [HttpGet]
         public IActionResult Add()

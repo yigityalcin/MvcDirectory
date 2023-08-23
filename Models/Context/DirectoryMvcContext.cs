@@ -15,7 +15,10 @@ namespace MvcDirectory.Models.Context
         } 
 
         public DbSet<Person> People { get; set; }
-        
+        public DbSet<Kayit> Kayıt { get; set; }
+
+
+
 
     }
 }
