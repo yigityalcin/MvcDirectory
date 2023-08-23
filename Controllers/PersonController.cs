@@ -56,7 +56,7 @@ namespace MvcDirectory.Controllers
             return View(model);
         }
 
-        [HttpPost]
+       
         [HttpPost]
         public IActionResult Add(Person person, IFormFile cropg, string CroppedImage)
         {
