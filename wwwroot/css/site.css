@@ -193,14 +193,9 @@
 }*/
 
 .rounded-img {
-    width: 60px;
+    width: 100px;
 }
 
-    .rounded-img img {
-        max-width: 40px;
-        max-height: 40px;
-        border-radius: 50%;
-    }
 
 
 /* Font Awesome for icons */
@@ -644,5 +639,4 @@ body {
         transform: rotate(0) scale(1) skew(1deg)
     }
 }
-
 

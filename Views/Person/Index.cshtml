@@ -73,12 +73,12 @@
                     <table class="table table-hover align-middle">
                         <thead class="table-light">
                             <tr>
-                                <th class="text-center align-middle">
+                                <th class="text-center align-content-md-start">
                                     <div class="form-check">
-                                        <input class="form-check-input custom-checkbox" type="checkbox" id="selectAll">
-                                        <label class="form-check-label me-lg-5" for="selectAll">
-                                            <button type="submit" class="btn btn-danger btn-sm delete-checkbox" id="deleteSelectedBtn" style="display:none;">
-                                                <i class="fas fa-trash"></i> Delete Selected
+                                        <input class="form-check-input" type="checkbox" id="selectAll">
+                                        <label class="form-check-label" for="selectAll">
+                                            <button type="submit" class="btn btn-danger btn-sm" id="deleteSelectedBtn" style="display:none;">
+                                                <i class="fas fa-trash"></i> Delete
                                             </button>
                                         </label>
                                     </div>
@@ -93,9 +93,9 @@
                             @foreach (var person in Model.People)
                             {
                                 <tr>
-                                    <td class="text-center ">
+                                    <td class="text-center ps-1">
                                         <div class="form-check">
-                                            <input class="form-check-input custom-checkbox" id="checkbox" type="checkbox" name="selectedPeople" value="@person.Id">
+                                            <input class="form-check-input m-auto"  id="flexCheckChecked" type="checkbox" name="selectedPeople" for="flexCheckChecked" value="@person.Id">
                                         </div>
                                     </td>
                                     <td class="text-center rounded-img">
