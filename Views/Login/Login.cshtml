@@ -5,9 +5,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<body class="loginpage">
-    <main class="form-signin w-50 m-auto mt-5">
-        <form action="#" method="post">
+<style>
+    .login1 {
+        margin-top: 130px;
+        margin-bottom: 300px;
+    }
+</style>
+<body class="loginpage align-items-md-center">
+    <div class="form-signin w-50 m-auto">
+        <form class="login1" action="#" method="post">
 
             <h1 class="h3 mb-3 fw-normal text-white">Please sign in</h1>
 
@@ -30,7 +36,7 @@
                     Remember me
                 </label>
             </div>
-            <button class="btn btn-primary w-100 py-2" style="background-color:grey; color:white;" type="submit">Sign in</button>
+            <button class="btn btn-primary w-100 py-2 border-black" style="background-color:grey; color:white;" type="submit">Sign in</button>
         </form>
-    </main>
+    </div>
 </body>

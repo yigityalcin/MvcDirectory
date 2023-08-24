@@ -22,6 +22,7 @@ namespace MvcDirectory.Controllers
             {
                 Kayit = new Kayit()
             };
+
             return View(model);
         }
 
@@ -35,7 +36,7 @@ namespace MvcDirectory.Controllers
                 if (kullanici != null)
                 {
 
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index","Person");
                 }
                 else
                 {

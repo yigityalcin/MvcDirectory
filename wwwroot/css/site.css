@@ -35,7 +35,7 @@
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
     box-sizing: border-box;
     width: 100%;
-    height:16%;
+    height:13%;
     text-align: left;
     font: normal 14px sans-serif;
     padding: 35px 160px;
@@ -331,10 +331,10 @@ body {
     border-radius: 100%;
     border: 2px solid rgb(255 255 255);
     opacity: .1;
-    -webkit-animation: coccoc-alo-circle-anim 1.2s infinite ease-in-out;
-    -moz-animation: coccoc-alo-circle-anim 1.2s infinite ease-in-out;
-    -o-animation: coccoc-alo-circle-anim 1.2s infinite ease-in-out;
-    animation: coccoc-alo-circle-anim 1.2s infinite ease-in-out;
+    -webkit-animation: coccoc-alo-circle-anim 2s infinite ease-in-out;
+    -moz-animation: coccoc-alo-circle-anim 2s infinite ease-in-out;
+    -o-animation: coccoc-alo-circle-anim 2s infinite ease-in-out;
+    animation: coccoc-alo-circle-anim 2s infinite ease-in-out;
     -webkit-transition: all .5s;
     -moz-transition: all .5s;
     -o-transition: all .5s;
@@ -414,7 +414,7 @@ body {
 
 .coccoc-alo-phone.coccoc-alo-green.coccoc-alo-hover .coccoc-alo-ph-circle,
 .coccoc-alo-phone.coccoc-alo-green:hover .coccoc-alo-ph-circle {
-    border-color: #42453d;
+    border-color: #ffffff;
     opacity: .5;
 }
 
@@ -426,7 +426,7 @@ body {
 
 .coccoc-alo-phone.coccoc-alo-green.coccoc-alo-hover .coccoc-alo-ph-img-circle,
 .coccoc-alo-phone.coccoc-alo-green:hover .coccoc-alo-ph-img-circle {
-    background-color: #42453d;
+    background-color: black;
 }
 
 @-moz-keyframes coccoc-alo-circle-anim {
