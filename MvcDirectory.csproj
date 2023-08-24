@@ -25,8 +25,7 @@
 
   <ItemGroup>
     <Folder Include="Data\" />
-    <Folder Include="Models\UserModel\" />
-    <Folder Include="Views\Shared\" />
+    <Folder Include="Views\UserLogin\" />
     <Folder Include="wwwroot\fonts\" />
     <Folder Include="wwwroot\lib\jquery-validation-unobtrusive\" />
     <Folder Include="wwwroot\lib\jquery-validation\" />

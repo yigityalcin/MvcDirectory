@@ -56,12 +56,12 @@ namespace MvcDirectory
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{culture}/{controller=Person}/{action=Login}/{id?}",
+                    pattern: "{culture}/{controller=Login}/{action=Login}/{id?}",
                     defaults: new { culture = "en-US" });
 
                 endpoints.MapControllerRoute(
                     name: "defaultLocalized",
-                    pattern: "{controller=Person}/{action=Login}/{id?}");
+                    pattern: "{controller=Login}/{action=Login}/{id?}");
             });
         }
     }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using MvcDirectory.Models.Context;
 using MvcDirectory.Models.Entities;
 using MvcDirectory.Models.PersonModel;
+using MvcDirectory.Models.UserModel;
 using MvcDirectory.Models;
 using System;
 using System.Collections.Generic;
@@ -44,32 +45,7 @@ namespace MvcDirectory.Controllers
 
             return View(model);
         }
-        public IActionResult Login()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Login(Kayit p)
-        {
-            if (ModelState.IsValid)
-            {
-                Kayit kullanici = db.Kayıt.FirstOrDefault(k => k.username == @p.username && k.password == @p.password);
-
-                if (kullanici != null)
-                {
-
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    TempData["BasarisizMesaj"] = "Geçersiz giriş bilgileri.";
-                    return RedirectToAction("Login");
-
-                }
-            }
-            return View(p);
-        }
+        
 
         [HttpGet]
         public IActionResult Add()
@@ -142,12 +118,6 @@ namespace MvcDirectory.Controllers
                 return RedirectToAction("Add");
             }
         }
-
-
-
-
-
-
 
 
         [HttpGet]
