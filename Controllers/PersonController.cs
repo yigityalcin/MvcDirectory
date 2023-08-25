@@ -110,7 +110,7 @@ namespace MvcDirectory.Controllers
 
                 TempData["BasariliMesaj"] = "Kayıt Başarılı";
                 TempData["UploadedFileName"] = uploadedFileName; // Dosya adını TempData'ya ekliyoruz
-                return RedirectToAction("Detail", new { uploadedFileName });
+                return RedirectToAction("Index", new { uploadedFileName });
             }
             catch (Exception)
             {
@@ -337,7 +337,7 @@ namespace MvcDirectory.Controllers
 
             db.SaveChanges();
 
-            TempData["BasariliMesaj"] = "Kişisel notlar ve fotoğraf başarıyla güncellendi.";
+            //TempData["BasariliMesaj"] = "Kişisel notlar ve fotoğraf başarıyla güncellendi.";
 
             // Detay sayfasına geri yönlendir
             return RedirectToAction("Detail", new { id = model.Person.Id });

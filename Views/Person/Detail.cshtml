@@ -108,18 +108,7 @@
 
                                 <div class="col-md-6">
                                     <dl class="row">
-                                        <dt class="col-sm-4">Name :</dt>
-                                        <dd class="col-sm-8">@Model.Person.Name</dd>
 
-                                        <dt class="col-sm-4">Phone :</dt>
-                                        <dd class="col-sm-8">@Model.Person.PhoneNumber</dd>
-
-                                        <dt class="col-sm-4">Email :</dt>
-                                        <dd class="col-sm-8">@Model.Person.Email</dd>
-
-                                        <dt class="col-sm-4">Profile Photo:</dt>
-                                        <dd class="col-sm-8">
-                                        <dt class="col-sm-4">Profile Photo:</dt>
                                         <dd class="col-sm-8">
                                             <div class="profile-picture">
                                                 <label class="profile-picture-label" for="fileInput">
@@ -139,9 +128,19 @@
                                                             <span class="profile-picture-text">Add Photo</span>
                                                         </span>
                                                     }
+
                                                 </label>
                                             </div>
+                                        <dt class="col-sm-4">Profile Photo:</dt>
                                         </dd>
+                                        <dt class="col-sm-4">Name :</dt>
+                                        <dd class="col-sm-8">@Model.Person.Name</dd>
+
+                                        <dt class="col-sm-4">Phone :</dt>
+                                        <dd class="col-sm-8">@Model.Person.PhoneNumber</dd>
+
+                                        <dt class="col-sm-4">Email :</dt>
+                                        <dd class="col-sm-8">@Model.Person.Email</dd>
                                     </dl>
                                 </div>
 
@@ -192,53 +191,53 @@
 
 @section Scripts {
     <script>
-// Handle delete button click
-$(".btn-delete").on("click", function () {
-    var id = $(this).data("id");
-    if (confirm("Are you sure you want to delete the record?")) {
-        $.ajax({
-            url: "@Url.Action("Delete", "Person")",
-            type: "POST",
-            data: { id: id },
-            success: function (result) {
-                window.location.href = "@Url.Action("Index")";
-            },
-            error: function () {
-                alert("An error occurred while deleting the record.");
+        // Handle delete button click
+        $(".btn-delete").on("click", function () {
+            var id = $(this).data("id");
+            if (confirm("Are you sure you want to delete the record?")) {
+                $.ajax({
+                    url: "@Url.Action("Delete", "Person")",
+                    type: "POST",
+                    data: { id: id },
+                    success: function (result) {
+                        window.location.href = "@Url.Action("Index")";
+                    },
+                    error: function () {
+                        alert("An error occurred while deleting the record.");
+                    }
+                });
             }
         });
-    }
-});
 
-/* Form gönderildiğinde çalışacak kod*/
-$("#personalNotesForm").submit(function (e) {
-    e.preventDefault(); // Sayfa yenilenmesini engellemek için formu submit etmeyi durduruyoruz
+        /* Form gönderildiğinde çalışacak kod*/
+        $("#personalNotesForm").submit(function (e) {
+            e.preventDefault(); // Sayfa yenilenmesini engellemek için formu submit etmeyi durduruyoruz
 
-    // Form verilerini alıyoruz
-    var formData = new FormData(this);
+            // Form verilerini alıyoruz
+            var formData = new FormData(this);
 
-    // Eğer fotoğraf seçilmişse, formData içine ekliyoruz
-    var file = $("#fileInput")[0].files[0];
-    if (file) {
-        formData.append("CroppedPhoto", file);
-    }
+            // Eğer fotoğraf seçilmişse, formData içine ekliyoruz
+            var file = $("#fileInput")[0].files[0];
+            if (file) {
+                formData.append("CroppedPhoto", file);
+            }
 
-    // AJAX ile formu sunucuya gönderiyoruz
-    $.ajax({
-        url: $(this).attr("action"),
-        type: "POST",
-        data: formData,
-        processData: false, // Dosyaları işleme sokma
-        contentType: false, // Content tipi ayarlamama
-        success: function (result) {
-            // Başarılı olduğunda sayfayı yenile
-            window.location.reload();
-        },
-        error: function () {
-            alert("An error occurred while saving the data.");
-        }
-    });
-});
+            // AJAX ile formu sunucuya gönderiyoruz
+            $.ajax({
+                url: $(this).attr("action"),
+                type: "POST",
+                data: formData,
+                processData: false, // Dosyaları işleme sokma
+                contentType: false, // Content tipi ayarlamama
+                success: function (result) {
+                    // Başarılı olduğunda sayfayı yenile
+                    window.location.reload();
+                },
+                error: function () {
+                    alert("An error occurred while saving the data.");
+                }
+            });
+        });
 
 
     </script>
