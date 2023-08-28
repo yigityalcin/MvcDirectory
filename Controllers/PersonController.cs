@@ -108,7 +108,7 @@ namespace MvcDirectory.Controllers
                 db.People.Add(person);
                 db.SaveChanges();
 
-                TempData["BasariliMesaj"] = "Kayıt Başarılı";
+                TempData["BasariliMesaj"] = "Registration Successful.";
                 TempData["UploadedFileName"] = uploadedFileName; // Dosya adını TempData'ya ekliyoruz
                 return RedirectToAction("Index", new { uploadedFileName });
             }
