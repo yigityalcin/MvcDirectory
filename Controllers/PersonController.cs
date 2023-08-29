@@ -114,7 +114,7 @@ namespace MvcDirectory.Controllers
             }
             catch (Exception)
             {
-                TempData["BasarisizMesaj"] = "Kayıt işlemi başarısız. Lütfen yeniden deneyin.";
+                TempData["BasarisizMesaj"] = "Registration failed. Please try again.";
                 return RedirectToAction("Add");
             }
         }
