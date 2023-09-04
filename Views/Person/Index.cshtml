@@ -118,9 +118,10 @@
                                             <a href="@Url.Action("Detail", new {id=person.Id})" class="btn detail-button" onclick="openDetayModal('@person.Id')">
                                                 <i class="fa fa-info-circle"></i> Detail
                                             </a>
-                                            <a href="#" class=" btn update-button" onclick="openUpdateModal('@person.Id')">
-                                                <i class="fa fa-pencil"></i> Update
+                                            <a href="@Url.Action("Update", new {id=person.Id})" class="btn update-button" onclick="openUpdateModal('@person.Id')">
+                                                <i class="fa fa-info-circle"></i> Update
                                             </a>
+                                            
                                             <a href="@Url.Action("Delete", new { id = person.Id })" class="btn delete-button" onclick="return confirm('Are you sure you want to delete the record?');">
                                                 <i class="fa fa-trash"></i>  Delete
                                             </a>
