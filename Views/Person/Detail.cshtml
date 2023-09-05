@@ -94,7 +94,6 @@
     }
 </style>
 
-<body class="container mt-5">
     <div class="d-flex flex-column justify-content-between min-vh-100">
         <div>
             <div class="row justify-content-center">
@@ -105,28 +104,29 @@
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-6">
-                                    <dl class="row">
-                                        <dd class="col-md-10">
-                                            <div class="profile-picture">
-                                                <label class="profile-picture-label" for="fileInput">                                                 
-                                                        <img src="@Model.Person.CroppedPhoto" alt="Profile Photo" class="profile-picture-image" />
-                                                        <span class="profile-picture-overlay">
-                                                        </span>                                                  
-                                                </label>
-                                            </div>                                        
-                                        </dd>
-                                        <dt class="col-sm-8">Name :</dt>
+                                <div class="col-md-4">
+                                    <div class="profile-picture ms-4">
+                                        <label class="profile-picture-label" for="fileInput">
+                                            <img src="@Model.Person.CroppedPhoto" alt="Profile Photo" class="profile-picture-image" />
+                                            <span class="profile-picture-overlay"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <dl class="row d-flex mt-4">
+                                        <dt class="col-sm-4">Name:</dt>
                                         <dd class="col-sm-8">@Model.Person.Name</dd>
 
-                                        <dt class="col-sm-8 ">Phone :</dt>
+                                        <dt class="col-sm-4">Phone:</dt>
                                         <dd class="col-sm-8">@Model.Person.PhoneNumber</dd>
 
-                                        <dt class="col-sm-8">Email :</dt>
+                                        <dt class="col-sm-4">Email:</dt>
                                         <dd class="col-sm-8">@Model.Person.Email</dd>
                                     </dl>
                                 </div>
+                            </div>
 
+                            <div class="row mt-4 d-flex justify-content-center">
                                 <div class="col-md-6">
                                     <form id="personalNotesForm" method="post" asp-controller="Person" asp-action="AddPersonalNotes" enctype="multipart/form-data">
                                         <div class="form-group">
@@ -140,17 +140,17 @@
                                             <button type="submit" class="btn bg-black text-white save-button">Save</button>
                                         </div>
                                     </form>
-
+                                </div>
+                                <div class="col-sm-8">
                                     <!-- Add success message display -->
                                     @if (TempData["BasariliMesaj"] != null)
                                     {
-                                        <div class="alert alert-success mt-3">@TempData["BasariliMesaj"]</div>
+                                        <div class="alert alert-success">@TempData["BasariliMesaj"]</div>
                                     }
                                 </div>
                             </div>
-
-
                         </div>
+
 
                         <div class="card-footer text-muted text-center">
                             <a href="@Url.Action("Index")" class="btn return-button"><i class="fa fa-undo"></i> Return</a>
@@ -167,7 +167,7 @@
             <!-- Empty div for pushing the footer to the bottom -->
         </div>
     </div>
-</body>
+
 
 
 

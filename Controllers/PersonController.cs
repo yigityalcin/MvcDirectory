@@ -337,7 +337,7 @@ namespace MvcDirectory.Controllers
 
             db.SaveChanges();
 
-            //TempData["BasariliMesaj"] = "Kişisel notlar ve fotoğraf başarıyla güncellendi.";
+            TempData["BasariliMesaj"] = "Successfully saved.";
 
             // Detay sayfasına geri yönlendir
             return RedirectToAction("Detail", new { id = model.Person.Id });
