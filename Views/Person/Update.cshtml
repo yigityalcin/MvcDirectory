@@ -3,7 +3,96 @@
     ViewData["Title"] = "Update";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="container mt-5">
+
+<div class="container mt-5"><style>
+    /* Add any other styles you want to customize here */
+    .profile-picture {
+        left:190px;
+        position: relative;
+        width: 300px;
+        height: 300px;
+        overflow: hidden;
+        border-radius: 50%;
+    }
+
+    .profile-picture-label {
+        display: block;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+    }
+
+    .profile-picture-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border: 2px solid black; /* Add the border style */
+        border-radius: 50%;
+        border-color: dimgray;
+        transition: opacity 0.3s;
+    }
+
+
+    .profile-picture-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        opacity: 0.4; /* Başlangıçta overlay görünmez olacak */
+        transition: opacity 0.3s;
+    }
+
+    .profile-picture-overlay1 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        opacity: 0; /* Başlangıçta overlay görünmez olacak */
+        transition: opacity 0.3s;
+    }
+
+    .profile-picture-label:hover .profile-picture-overlay1 {
+        opacity: 1; /* Overlay'e tıklanınca görünür olacak */
+    }
+
+    .profile-picture-label:hover .profile-picture-overlay {
+        opacity: 1; /* Overlay'e tıklanınca görünür olacak */
+    }
+
+    .profile-picture-overlay1 i {
+        font-size: 24px;
+        color: white;
+    }
+
+    .profile-picture-overlay i {
+        font-size: 25px;
+        color: white;
+    }
+
+    .profile-picture-text {
+        color: white;
+        font-weight: bold;
+        margin-top: 5px;
+    }
+
+    .save-button {
+        font-size: 14px;
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+        width: 100%;
+    }
+</style>
     <div class="d-flex flex-column justify-content-between min-vh-100">
         <div>
             <div class="row justify-content-center">
@@ -15,26 +104,25 @@
                         <div class="card-body">
                             <div class="col-md-4 offset-md-2" style="top:10px; right:10px;">
                                 <div class="profile-picture">
-                                    <!-- Dosya seçme için gizli input etiketi -->
-                                    <input type="file" id="fileInput" name="ProfilePhoto" style="display: none;" />
+                                    <label class="profile-picture-label" for="fileInput">
+                                        @if (!string.IsNullOrEmpty(Model.Person.CroppedPhoto))
+                                        {
+                                            <img src="@Model.Person.CroppedPhoto" alt="Profile Photo" class="profile-picture-image" />
+                                            <span class="profile-picture-overlay">
+                                                <i class="fas fa-camera"></i>
+                                                <span class="profile-picture-text">Change Photo</span>
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <i class="fas fa-camera profile-picture-image"></i>
+                                            <span class="profile-picture-overlay1">
+                                                <i class="fas fa-camera"></i>
+                                                <span class="profile-picture-text">Add Photo</span>
+                                            </span>
+                                        }
 
-                                    <!-- Dosya seçme butonu için etiket -->
-                                    <label class="profile-picture-label" for="fileInput"></label>
-                                    @if (Model.Person.CroppedPhoto != null)
-                                    {
-                                        <img class="profile-picture-image" src="(Model.Person.CroppedPhoto)" alt="Profile Picture" />
-                                        <div class="profile-picture-overlay1">
-                                            <i class="fas fa-camera"></i>
-                                            <div class="profile-picture-text">Change photo</div>
-                                        </div>
-                                    }
-                                    else
-                                    {
-                                        <div class="profile-picture-overlay">
-                                            <i class="fas fa-camera"></i>
-                                            <div class="profile-picture-text">No photo</div>
-                                        </div>
-                                    }
+                                    </label>
                                 </div>
                             </div>
                             @using (Html.BeginForm("Update", "Person", FormMethod.Post, new { @class = "form-horizontal" }))
@@ -54,7 +142,7 @@
                                 </div>
                                 <div class="form-group text-center">
                                     <a href="@Url.Action("Index")" class="btn btn-outline-secondary">Return</a>
-                                    <input type="submit" class="btn btn-primary" value="Save" />
+                                    <input type="submit" class="btn btn-" value="Save" />
                                 </div>
                             }
                         </div>

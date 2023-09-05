@@ -100,52 +100,34 @@
             <div class="row justify-content-center">
                 <div class="col-md-10">
                     <div class="card table-borderless">
-                        <div class="card-header bg-primary text-white bg-black">
+                        <div class="card-header bg-primary  text-white bg-black">
                             <h1 class="display-4 font-weight-light text-center">Details of @Model.Person.Name</h1>
                         </div>
                         <div class="card-body">
                             <div class="row">
-
                                 <div class="col-md-6">
                                     <dl class="row">
-
-                                        <dd class="col-sm-8">
+                                        <dd class="col-md-10">
                                             <div class="profile-picture">
-                                                <label class="profile-picture-label" for="fileInput">
-                                                    @if (!string.IsNullOrEmpty(Model.Person.CroppedPhoto))
-                                                    {
+                                                <label class="profile-picture-label" for="fileInput">                                                 
                                                         <img src="@Model.Person.CroppedPhoto" alt="Profile Photo" class="profile-picture-image" />
                                                         <span class="profile-picture-overlay">
-                                                            <i class="fas fa-camera"></i>
-                                                            <span class="profile-picture-text">Change Photo</span>
-                                                        </span>
-                                                    }
-                                                    else
-                                                    {
-                                                        <i class="fas fa-camera profile-picture-image"></i>
-                                                        <span class="profile-picture-overlay1">
-                                                            <i class="fas fa-camera"></i>
-                                                            <span class="profile-picture-text">Add Photo</span>
-                                                        </span>
-                                                    }
-
+                                                        </span>                                                  
                                                 </label>
-                                            </div>
-                                        
+                                            </div>                                        
                                         </dd>
-                                        <dt class="col-sm-4">Profile Photo:</dt>
-                                        <dt class="col-sm-4">Name :</dt>
+                                        <dt class="col-sm-8">Name :</dt>
                                         <dd class="col-sm-8">@Model.Person.Name</dd>
 
-                                        <dt class="col-sm-4 ">Phone :</dt>
+                                        <dt class="col-sm-8 ">Phone :</dt>
                                         <dd class="col-sm-8">@Model.Person.PhoneNumber</dd>
 
-                                        <dt class="col-sm-4">Email :</dt>
+                                        <dt class="col-sm-8">Email :</dt>
                                         <dd class="col-sm-8">@Model.Person.Email</dd>
                                     </dl>
                                 </div>
 
-                                <div class="col-md-4" style="right:-500px; top:-50px;">
+                                <div class="col-md-6">
                                     <form id="personalNotesForm" method="post" asp-controller="Person" asp-action="AddPersonalNotes" enctype="multipart/form-data">
                                         <div class="form-group">
                                             <label for="personalNotes" class="font-weight-bold">Personal Notes:</label>

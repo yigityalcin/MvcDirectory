@@ -10,19 +10,19 @@
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     <div class="card">
-                        <div class="card-header bg- text-white">
+                        <div class="card-header bg-black text-white">
                             <h1 class="display-4 font-weight-light text-center">Read Record</h1>
                         </div>
                         <div class="card-body">
                             <form class="form-horizontal text-sm-center" method="post" enctype="multipart/form-data">
                                 <div class="file-input-wrapper">
                                     <label for="image">
-                                        <img src="~/images/file-add-blue.png" alt="Dosya Seç" />
+                                        <img src="~/images/file-add.png" alt="Dosya Seç" />
                                     </label>
                                     <input type="file" name="image" id="image" accept="image/*" />
                                 </div>
                                 <div class="button-wrapper">
-                                    <button type="submit" class="btn btn-primary">Bilgileri Getir</button>
+                                    <button type="submit" class="btn btn-dark">Bilgileri Getir</button>
                                 </div>
 
                             </form>
@@ -48,7 +48,7 @@
 
                                 <div class="form-group text-center">
                                     <a href="@Url.Action("Index")" class="btn btn-outline-secondary">Return</a>
-                                    <button type="submit" class="btn btn-primary">Save</button>
+                                    <button type="submit" class="btn btn-dark">Save</button>
                                 </div>
                             </form>
                         </div>
